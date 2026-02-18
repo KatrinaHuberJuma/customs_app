@@ -1,14 +1,14 @@
 {
   "main": {
-    "id": "81b48a741b81af1b",
+    "id": "4b83fc5a8850452e",
     "type": "split",
     "children": [
       {
-        "id": "fff8177387173fe4",
+        "id": "c1d2cff5d0783c8b",
         "type": "tabs",
         "children": [
           {
-            "id": "199fa5c8c5662928",
+            "id": "fdfa4b7910265b5b",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -27,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "b7878e0a840dda63",
+    "id": "afe8cc54f0ca278a",
     "type": "split",
     "children": [
       {
-        "id": "4acea38643639736",
+        "id": "58c2e6aeb6d0df3c",
         "type": "tabs",
         "children": [
           {
-            "id": "ff62e7be85450d2a",
+            "id": "195a8711aad75fa1",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -48,7 +48,7 @@
             }
           },
           {
-            "id": "ed7cec06b381f7c2",
+            "id": "7d2407b2d2c3efcb",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -65,7 +65,7 @@
             }
           },
           {
-            "id": "2bb82a305e340c42",
+            "id": "62672173145e03bc",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -81,22 +81,22 @@
     "width": 300
   },
   "right": {
-    "id": "a41a3b9a5e5eba52",
+    "id": "57e3a1f02594254e",
     "type": "split",
     "children": [
       {
-        "id": "e95c06acd2f66cec",
+        "id": "7fd6361ff2db9c32",
         "type": "tabs",
         "children": [
           {
-            "id": "63bcbb5a4a49448e",
+            "id": "d8b5f62476e8e251",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
                 "file": "readme.md",
                 "collapseAll": false,
-                "extraContext": false,
+                "extraContext": true,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
                 "searchQuery": "",
@@ -108,7 +108,7 @@
             }
           },
           {
-            "id": "af3d6c86dfd9b7f4",
+            "id": "457d7737c0777767",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
@@ -122,7 +122,7 @@
             }
           },
           {
-            "id": "70af9a6199d108d2",
+            "id": "6e5a5b138e6e99b3",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -137,7 +137,7 @@
             }
           },
           {
-            "id": "f8b9115fe06bd695",
+            "id": "e2a0b6dcec400e5c",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -151,7 +151,7 @@
             }
           },
           {
-            "id": "9c2fe8c2718e7ec1",
+            "id": "833f0f77c0ad0ba7",
             "type": "leaf",
             "state": {
               "type": "outline",
@@ -165,12 +165,12 @@
               "title": "Outline of readme"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -183,10 +183,9 @@
       "bases:Create new base": false
     }
   },
-  "active": "199fa5c8c5662928",
+  "active": "fdfa4b7910265b5b",
   "lastOpenFiles": [
-    "Untitled.base",
-    "readme.md",
-    "images/behave_report_git.png"
+    "images/behave_report_git.png",
+    "Untitled.base"
   ]
 }
