@@ -5,32 +5,35 @@
 
 
 
-# Results: a tested application
+## Results: a tested application
 
-## Application: API, Database, Logic, Admin App
+### Application: API, Database, Logic, Admin App
 
 ![app](images/app_screenshot.png)
 
-## Testing
+### Tests and Report
+
+The GenAI-Logic `create` command builds test services and Context Engineering. These enable the LLM to generate tests that proved the code worked, as well as elucidate the logic through readable test reports.
+
 
 ![[behave_report_git.png]]
-## How This Was Created
+## Created with Two Prompts
 
-### Subsystem
+### Subsystem Prompt
 The subsystem was created by providing the following prompt to Copilot:
 
 ```text
 Create a fully functional application and database for CBSA Steel Derivative Goods Surtax Order PC Number: 2025-0917 on 2025-12-11 and annexed Steel Derivative Goods Surtax Order under subsection 53(2) and paragraph 79(a) of the Customs Tariff program code 25267A to calculate duties and taxes including provincial sales tax or HST where applicable when hs codes, country of origin, customs value, and province code and ship date >= '2025-12-26' and create runnable ui with examples from Germany, US, Japan and China" this prompt created the tables in db.sqlite.
 ```
 
-### Tests
+### Tests Prompt
 ```text
 create behave tests from CBSA_SURTAX_GUIDE.md
 ```
 
 ---
 
-## 1. What Was Created
+## 1. Project Contents
 
 The following artifacts were generated and are present in this repository.
 
@@ -112,6 +115,15 @@ This app was built across four iterations. Each iteration revealed a specific ga
 
 ## 3. Testing
 
+**Behave** is a Python BDD (Behavior-Driven Development) test framework. Tests are written in plain English using **Gherkin** syntax (`Given / When / Then`), making them readable by non-engineers.
+
+`Scenario: Surtax applies for post-cutoff ship date`
+  `Given a SurtaxOrder for Germany to Ontario with ship_date 2026-01-15`
+  `When a line item is added with hs_code 7208.10.00 quantity 1000`
+  `Then the line item surtax_amount is 125000.00`
+
+Each step maps to a Python function in `features/steps/`. GenAI-Logic adds a **Behave Logic Report** on top (`behave_logic_report.py`) that traces which rules fired per scenario — turning tests into living requirements documentation (requirement → rule → execution).
+
 To run the Behave test suite, start the server first, then execute:
 
 ```bash
@@ -119,7 +131,9 @@ cd test/api_logic_server_behave
 python behave_run.py
 ```
 
-The Behave Logic Report (`test/api_logic_server_behave/behave_logic_report.py`) produces a per-scenario trace showing which rules fired, in what order, and with what before/after values. This creates a direct requirement → rule → execution traceability chain. For example, the scenario `Surtax applies for post-cutoff ship date with surtax country` in `features/cbsa_surtax.feature` traces through the `determine_surtax_applicability` formula rule, the `calculate_surtax_amount` formula rule, the `copy_pst_hst_rate` formula rule, and all five sum rules up to the order totals — all triggered by a single line-item insert.
+The Behave Logic Report (`test/api_logic_server_behave/behave_logic_report.py`) produces a per-scenario trace showing which rules fired, in what order, and with what before/after values. This creates a direct requirement → rule → execution traceability chain. 
+
+For example, the scenario `Surtax applies for post-cutoff ship date with surtax country` in `features/cbsa_surtax.feature` traces through the `determine_surtax_applicability` formula rule, the `calculate_surtax_amount` formula rule, the `copy_pst_hst_rate` formula rule, and all five sum rules up to the order totals — all triggered by a single line-item insert.
 
 ---
 
