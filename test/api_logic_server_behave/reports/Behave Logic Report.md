@@ -4,6 +4,10 @@ This report shows test results with embedded logic execution traces.
 
 **About This Project:**
 
+![app](../../../images/app_screenshot.png)
+
+![app](../../../images/db-diagram.png)
+
 _**TODO:** [Describe your project here - what it does, key features tested, etc.]_
 
 &nbsp;

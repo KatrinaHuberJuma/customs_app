@@ -56,9 +56,83 @@ Table Supplier {
 
 
 
+// ==============================================================================
+// CBSA Steel Derivative Goods Surtax System
+// PC Number: 2025-0917, Program Code: 25267A
+// Effective Date: 2025-12-26
+// ==============================================================================
+
+Table ProvinceTaxRate {
+    id INTEGER [primary key]
+    province_code VARCHAR(2) [not null, unique]
+    province_name VARCHAR(100) [not null]
+    tax_type VARCHAR(10) [not null, note: 'PST, HST, or GST']
+    tax_rate DECIMAL(5,4) [not null, note: 'e.g. 0.13 for 13%']
+    effective_date DATE [not null]
+    }
+
+Table CountryOrigin {
+    id INTEGER [primary key]
+    country_code VARCHAR(2) [not null, unique]
+    country_name VARCHAR(100) [not null]
+    surtax_applicable BOOLEAN [not null, default: true]
+    surtax_rate DECIMAL(5,4) [not null, default: 0.25, note: '25% steel surtax']
+    }
+
+Table HSCodeRate {
+    id INTEGER [primary key]
+    hs_code VARCHAR(10) [not null, unique]
+    description VARCHAR(500) [not null]
+    base_duty_rate DECIMAL(5,4) [not null]
+    surtax_rate DECIMAL(5,4) [not null, default: 0.25]
+    effective_date DATE [not null]
+    }
+
+Table SurtaxOrder {
+    id INTEGER [primary key]
+    order_number VARCHAR(50) [not null, unique]
+    entry_date DATE [not null]
+    ship_date DATE [not null]
+    country_origin_id INTEGER [not null]
+    province_code_id INTEGER [not null]
+    total_customs_value DECIMAL(15,2) [default: 0, note: 'derived: sum of line customs_value']
+    total_duty DECIMAL(15,2) [default: 0, note: 'derived: sum of line duty_amount']
+    total_surtax DECIMAL(15,2) [default: 0, note: 'derived: sum of line surtax_amount']
+    total_pst_hst DECIMAL(15,2) [default: 0, note: 'derived: sum of line pst_hst_amount']
+    total_amount_due DECIMAL(15,2) [default: 0, note: 'derived: sum of line total_amount']
+    surtax_applicable BOOLEAN [default: false, note: 'derived: ship_date >= 2025-12-26 AND country surtax_applicable']
+    importer_name VARCHAR(200)
+    broker_name VARCHAR(200)
+    }
+
+Table SurtaxLineItem {
+    id INTEGER [primary key]
+    surtax_order_id INTEGER [not null]
+    hs_code_id INTEGER [not null]
+    line_number INTEGER [not null]
+    description VARCHAR(500)
+    quantity DECIMAL(15,3) [not null]
+    unit_of_measure VARCHAR(20) [default: 'KG']
+    unit_price DECIMAL(15,2) [not null]
+    customs_value DECIMAL(15,2) [default: 0, note: 'derived: quantity * unit_price']
+    duty_rate DECIMAL(5,4) [default: 0, note: 'derived: copied from HSCodeRate']
+    duty_amount DECIMAL(15,2) [default: 0, note: 'derived: customs_value * duty_rate']
+    surtax_rate DECIMAL(5,4) [default: 0, note: 'derived: copied from HSCodeRate']
+    surtax_amount DECIMAL(15,2) [default: 0, note: 'derived: customs_value * surtax_rate if applicable']
+    pst_hst_rate DECIMAL(5,4) [default: 0, note: 'derived: copied from ProvinceTaxRate via order']
+    pst_hst_amount DECIMAL(15,2) [default: 0, note: 'derived: (customs_value + duty + surtax) * pst_hst_rate']
+    total_amount DECIMAL(15,2) [default: 0, note: 'derived: customs_value + duty + surtax + pst_hst']
+    }
+
+
 // Relationships
     Ref: Item.(order_id) > Order.(id)
     Ref: Item.(product_id) > Product.(id)
     Ref: Order.(customer_id) > Customer.(id)
     Ref: ProductSupplier.(product_id) > Product.(id)
     Ref: ProductSupplier.(supplier_id) > Supplier.(id)
+
+    Ref: SurtaxOrder.(country_origin_id) > CountryOrigin.(id)
+    Ref: SurtaxOrder.(province_code_id) > ProvinceTaxRate.(id)
+    Ref: SurtaxLineItem.(surtax_order_id) > SurtaxOrder.(id)
+    Ref: SurtaxLineItem.(hs_code_id) > HSCodeRate.(id)
