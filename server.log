@@ -1,0 +1,1001 @@
+
+API Logic Project Server Setup (basic_demo_customs3) Starting with CLI args: 
+.. api_logic_server_run.py
+
+Created August 03, 2024 09:34:01 at /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/basic_demo_customs3
+
+Data Model Loaded, customizing...
+..discovered models: []
+LogicBank Activation - declare_logic.py
+..discovered logic: ['use_case.py', 'cbsa_steel_surtax.py']
+
+The following rules have been loaded
+Rule Bank[0x10c9470e0] (loaded 2026-02-17 21:04:40.698235)
+Mapped Class[SurtaxLineItem] rules:
+  Derive <class 'database.models.SurtaxLineItem'>.customs_value as Formula (-1): as_expression=lambda row: row.quantity * row.unit [...]
+  Derive <class 'database.models.SurtaxLineItem'>.duty_rate as Copy(hs_code_rate.base_duty_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_rate as Copy(hs_code_rate.surtax_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.duty_amount as Formula (-1): as_expression=lambda row: row.customs_value * (ro [...]
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_amount as Formula (-1): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_rate as Formula (-1): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_amount as Formula (-1): as_expression=lambda row: (row.customs_value + (r [...]
+  Derive <class 'database.models.SurtaxLineItem'>.total_amount as Formula (-1): as_expression=lambda row: (row.customs_value + 
+  [...]
+  Constraint Function: None 
+  Constraint Function: None 
+Mapped Class[SurtaxOrder] rules:
+  Derive <class 'database.models.SurtaxOrder'>.total_customs_value as Sum(SurtaxLineItem.customs_value Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_duty as Sum(SurtaxLineItem.duty_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_surtax as Sum(SurtaxLineItem.surtax_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_pst_hst as Sum(SurtaxLineItem.pst_hst_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_amount_due as Sum(SurtaxLineItem.total_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (-1): <function>
+  Constraint Function: None 
+
+The following attributes have been referenced
+
+..SurtaxLineItem.quantity: - formula
+..SurtaxLineItem.unit_price: - formula
+..SurtaxLineItem.duty_rate: parent copy derivation
+..HSCodeRate.base_duty_rate: parent copy from
+..SurtaxLineItem.surtax_rate: parent copy derivation
+..HSCodeRate.surtax_rate: parent copy from
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.duty_rate: - formula
+..SurtaxLineItem.surtax_order: - formula
+..SurtaxLineItem.surtax_order.surtax_applicable:: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.surtax_rate: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.surtax_order: - formula
+..SurtaxLineItem.surtax_order: - formula
+..SurtaxLineItem.surtax_order.province_tax_rate:: - formula
+..SurtaxLineItem.pst_hst_rate: - formula
+..SurtaxLineItem.surtax_order.province_tax_rate: - formula
+..SurtaxLineItem.pst_hst_rate: - formula
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.duty_amount: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.pst_hst_rate: - formula
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.duty_amount: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.pst_hst_amount: - formula
+..SurtaxLineItem.quantity: constraint
+..SurtaxLineItem.quantity: constraint
+..SurtaxLineItem.unit_price: constraint
+..SurtaxLineItem.unit_price: constraint
+..SurtaxOrder.total_customs_value: aggregate derivation
+..SurtaxLineItem.customs_value: sum derived from
+..SurtaxOrder.total_duty: aggregate derivation
+..SurtaxLineItem.duty_amount: sum derived from
+..SurtaxOrder.total_surtax: aggregate derivation
+..SurtaxLineItem.surtax_amount: sum derived from
+..SurtaxOrder.total_pst_hst: aggregate derivation
+..SurtaxLineItem.pst_hst_amount: sum derived from
+..SurtaxOrder.total_amount_due: aggregate derivation
+..SurtaxLineItem.total_amount: sum derived from
+..SurtaxOrder.country_origin_id:: - formula
+..SurtaxOrder.country_origin: - formula
+..SurtaxOrder.country_origin.surtax_applicable: - formula
+
+The following rules have been activated
+Rule Bank[0x10c9470e0] (loaded 2026-02-17 21:04:40.698235)
+Mapped Class[SurtaxLineItem] rules:
+  Derive <class 'database.models.SurtaxLineItem'>.customs_value as Formula (1): as_expression=lambda row: row.quantity * row.unit [...]
+  Derive <class 'database.models.SurtaxLineItem'>.duty_rate as Copy(hs_code_rate.base_duty_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_rate as Copy(hs_code_rate.surtax_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.duty_amount as Formula (2): as_expression=lambda row: row.customs_value * (ro [...]
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_amount as Formula (3): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_rate as Formula (4): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_amount as Formula (5): as_expression=lambda row: (row.customs_value + (r [...]
+  Derive <class 'database.models.SurtaxLineItem'>.total_amount as Formula (6): as_expression=lambda row: (row.customs_value + 
+  [...]
+  Constraint Function: None 
+  Constraint Function: None 
+Mapped Class[SurtaxOrder] rules:
+  Derive <class 'database.models.SurtaxOrder'>.total_customs_value as Sum(SurtaxLineItem.customs_value Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_duty as Sum(SurtaxLineItem.duty_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_surtax as Sum(SurtaxLineItem.surtax_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_pst_hst as Sum(SurtaxLineItem.pst_hst_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_amount_due as Sum(SurtaxLineItem.total_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>
+  Constraint Function: None 
+Logic Bank 1.30.00 - 21 rules loaded
+Exposing /CountryOrigin
+Exposing /Customer
+Exposing /HSCodeRate
+Exposing /Item
+Exposing /Order
+Exposing /Product
+Exposing /ProductSupplier
+Exposing /ProvinceTaxRate
+Exposing /Supplier
+Exposing /SurtaxLineItem
+Exposing /SurtaxOrder
+Declare   API - api/expose_api_models, endpoint for each table on localhost:5656, customizing...
+..discovered services: ['ontimize_api.py', 'system.py', 'mcp_discovery.py', 'new_service.py', 'newer_service.py']
+Kafka Consumer not activated
+
+API Logic Project loaded (not WSGI), version: 16.01.30
+.. startup message: normal start
+ (running locally at flask_host: 0.0.0.0)
+
+API Logic Project (name: basic_demo_customs3) starting:
+..Explore data and API at http_scheme://swagger_host:port http://localhost:5656   *
+.... with flask_host: 0.0.0.0
+.... and  swagger_port: 5656
+
+Alert: These following are **Critical** to unlocking value for project: basic_demo_customs3:
+.. see logic.declare_logic.py       -- 
+.. see security.declare_security.py -- ALERT:  *** Security Not Enabled ***
+
+
+*************************************************************************
+*   Startup Instructions: Open your Browser at: http://localhost:5656   *
+*************************************************************************
+
+ * Serving Flask app 'API Logic Server'
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5656
+ * Running on http://10.0.0.249:5656
+[33mPress CTRL+C to quit[0m
+
+Logic Phase:		ROW LOGIC		(session=0x10e613390) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5300  session: 0x10e613390  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5300  session: 0x10e613390  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: True (Ship Date: 2026-01-20, Date Check: True, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5300  session: 0x10e613390  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5300  session: 0x10e613390  ins_upd_dlt: ins, initial: ins
+Logic Phase:		COMMIT LOGIC		(session=0x10e613390)   										
+(sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2026-001', '2026-01-15', '2026-01-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - After Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Generic Error: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2026-001', '2026-01-15', '2026-01-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - After Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Error in http://localhost:5656/api/SurtaxOrder/
+Traceback (most recent call last):
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: surtax_order.order_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py", line 462, in _s_post
+    safrs.DB.session.commit()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py", line 599, in commit
+    return self._proxied.commit()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1313, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1288, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4353, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4449, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2026-001', '2026-01-15', '2026-01-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - After Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+
+Traceback (most recent call last):
+  $venv/sqlalchemy/engine/base.py @ 1964, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+    )
+    ^
+  $venv/sqlalchemy/engine/default.py @ 942, in do_execute                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py]    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: surtax_order.order_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  $venv/safrs/base.py @ 462, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    safrs.DB.session.commit()
+  $venv/sqlalchemy/orm/scoping.py @ 599, in commit                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py]    return self._proxied.commit()
+  $venv/sqlalchemy/orm/session.py @ 2032, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    trans.commit(_to_root=True)
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1313, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._prepare_impl()
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1288, in _prepare_impl                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self.session.flush()
+  $venv/sqlalchemy/orm/session.py @ 4353, in flush                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._flush(objects)
+  $venv/sqlalchemy/orm/session.py @ 4488, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    with util.safe_reraise():
+  $venv/sqlalchemy/util/langhelpers.py @ 146, in __exit__                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py]    raise exc_value.with_traceback(exc_tb)
+  $venv/sqlalchemy/orm/session.py @ 4449, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    flush_context.execute()
+  $venv/sqlalchemy/orm/unitofwork.py @ 466, in execute                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py]    rec.execute(self)
+  $venv/sqlalchemy/orm/unitofwork.py @ 642, in execute                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py]    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        uow,
+    )
+    ^
+  $venv/sqlalchemy/orm/persistence.py @ 93, in save_obj                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py]    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+    ...<3 lines>...
+        insert,
+    )
+    ^
+  $venv/sqlalchemy/orm/persistence.py @ 1233, in _emit_insert_statements                            	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py]    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  $venv/sqlalchemy/engine/base.py @ 1416, in execute                                                	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  $venv/sqlalchemy/sql/elements.py @ 523, in _execute_on_connection                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py]    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 1638, in _execute_clauseelement                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  $venv/sqlalchemy/engine/base.py @ 1843, in _execute_context                                       	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 1983, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 2352, in _handle_dbapi_exception                                	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  $venv/sqlalchemy/engine/base.py @ 1964, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+    )
+    ^
+  $venv/sqlalchemy/engine/default.py @ 942, in do_execute                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py]    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2026-001', '2026-01-15', '2026-01-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - After Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  $venv/safrs/safrs_api.py @ 674, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    result = fun(*args, **kwargs)
+  $venv/safrs/jsonapi.py @ 436, in post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self._create_instance(data)
+  $venv/safrs/jsonapi.py @ 476, in _create_instance                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self.SAFRSObject._s_post(**attributes, **relationships)
+  $venv/safrs/base.py @ 467, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    raise GenericError(str(exc))
+safrs.errors.GenericError
+Exception on /api/SurtaxOrder/ [POST]
+Traceback (most recent call last):
+  $venv/flask/app.py @ 1484, in full_dispatch_request                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/app.py]    rv = self.dispatch_request()
+  $venv/flask/app.py @ 1469, in dispatch_request                                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/app.py]    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  $venv/flask_restful/__init__.py @ 489, in wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    resp = resource(*args, **kwargs)
+  $venv/flask_restful_swagger_2/__init__.py @ 39, in decorator                                      	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful_swagger_2/__init__.py]    return f(*args, **kwargs)
+  $venv/flask/views.py @ 109, in view                                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/views.py]    return current_app.ensure_sync(self.dispatch_request)(**kwargs)
+  $venv/flask_restful/__init__.py @ 604, in dispatch_request                                        	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    resp = meth(*args, **kwargs)
+  $venv/flask_restful_swagger_2/swagger.py @ 219, in inner                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful_swagger_2/swagger.py]    return f(self, *args, **kwargs)
+  $venv/safrs/safrs_api.py @ 708, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    abort(status_code, errors=[errors])
+  $venv/flask_restful/__init__.py @ 32, in abort                                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    original_flask_abort(http_status_code)
+  $venv/flask/helpers.py @ 277, in abort                                                            	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/helpers.py]    current_app.aborter(code, *args, **kwargs)
+  $venv/werkzeug/exceptions.py @ 861, in __call__                                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/werkzeug/exceptions.py]    raise self.mapping[code](*args, **kwargs)
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+127.0.0.1 - - [17/Feb/2026 21:04:54] "[35m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 500 -
+
+Logic Phase:		ROW LOGIC		(session=0x10e6fd810) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e6b6270  session: 0x10e6fd810  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e6b6270  session: 0x10e6fd810  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: False (Ship Date: 2025-12-20, Date Check: False, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e6b6270  session: 0x10e6fd810  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: False, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e6b6270  session: 0x10e6fd810  ins_upd_dlt: ins, initial: ins
+Logic Phase:		COMMIT LOGIC		(session=0x10e6fd810)   										
+(sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-002', '2025-12-15', '2025-12-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 'Test Importer - Before Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Generic Error: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-002', '2025-12-15', '2025-12-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 'Test Importer - Before Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Error in http://localhost:5656/api/SurtaxOrder/
+Traceback (most recent call last):
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: surtax_order.order_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py", line 462, in _s_post
+    safrs.DB.session.commit()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py", line 599, in commit
+    return self._proxied.commit()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1313, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1288, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4353, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4449, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-002', '2025-12-15', '2025-12-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 'Test Importer - Before Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+
+Traceback (most recent call last):
+  $venv/sqlalchemy/engine/base.py @ 1964, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+    )
+    ^
+  $venv/sqlalchemy/engine/default.py @ 942, in do_execute                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py]    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: surtax_order.order_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  $venv/safrs/base.py @ 462, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    safrs.DB.session.commit()
+  $venv/sqlalchemy/orm/scoping.py @ 599, in commit                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py]    return self._proxied.commit()
+  $venv/sqlalchemy/orm/session.py @ 2032, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    trans.commit(_to_root=True)
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1313, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._prepare_impl()
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1288, in _prepare_impl                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self.session.flush()
+  $venv/sqlalchemy/orm/session.py @ 4353, in flush                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._flush(objects)
+  $venv/sqlalchemy/orm/session.py @ 4488, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    with util.safe_reraise():
+  $venv/sqlalchemy/util/langhelpers.py @ 146, in __exit__                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py]    raise exc_value.with_traceback(exc_tb)
+  $venv/sqlalchemy/orm/session.py @ 4449, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    flush_context.execute()
+  $venv/sqlalchemy/orm/unitofwork.py @ 466, in execute                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py]    rec.execute(self)
+  $venv/sqlalchemy/orm/unitofwork.py @ 642, in execute                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py]    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        uow,
+    )
+    ^
+  $venv/sqlalchemy/orm/persistence.py @ 93, in save_obj                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py]    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+    ...<3 lines>...
+        insert,
+    )
+    ^
+  $venv/sqlalchemy/orm/persistence.py @ 1233, in _emit_insert_statements                            	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py]    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  $venv/sqlalchemy/engine/base.py @ 1416, in execute                                                	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  $venv/sqlalchemy/sql/elements.py @ 523, in _execute_on_connection                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py]    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 1638, in _execute_clauseelement                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  $venv/sqlalchemy/engine/base.py @ 1843, in _execute_context                                       	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 1983, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 2352, in _handle_dbapi_exception                                	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  $venv/sqlalchemy/engine/base.py @ 1964, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+    )
+    ^
+  $venv/sqlalchemy/engine/default.py @ 942, in do_execute                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py]    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-002', '2025-12-15', '2025-12-20', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 'Test Importer - Before Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  $venv/safrs/safrs_api.py @ 674, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    result = fun(*args, **kwargs)
+  $venv/safrs/jsonapi.py @ 436, in post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self._create_instance(data)
+  $venv/safrs/jsonapi.py @ 476, in _create_instance                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self.SAFRSObject._s_post(**attributes, **relationships)
+  $venv/safrs/base.py @ 467, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    raise GenericError(str(exc))
+safrs.errors.GenericError
+Exception on /api/SurtaxOrder/ [POST]
+Traceback (most recent call last):
+  $venv/flask/app.py @ 1484, in full_dispatch_request                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/app.py]    rv = self.dispatch_request()
+  $venv/flask/app.py @ 1469, in dispatch_request                                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/app.py]    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  $venv/flask_restful/__init__.py @ 489, in wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    resp = resource(*args, **kwargs)
+  $venv/flask_restful_swagger_2/__init__.py @ 39, in decorator                                      	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful_swagger_2/__init__.py]    return f(*args, **kwargs)
+  $venv/flask/views.py @ 109, in view                                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/views.py]    return current_app.ensure_sync(self.dispatch_request)(**kwargs)
+  $venv/flask_restful/__init__.py @ 604, in dispatch_request                                        	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    resp = meth(*args, **kwargs)
+  $venv/flask_restful_swagger_2/swagger.py @ 219, in inner                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful_swagger_2/swagger.py]    return f(self, *args, **kwargs)
+  $venv/safrs/safrs_api.py @ 708, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    abort(status_code, errors=[errors])
+  $venv/flask_restful/__init__.py @ 32, in abort                                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    original_flask_abort(http_status_code)
+  $venv/flask/helpers.py @ 277, in abort                                                            	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/helpers.py]    current_app.aborter(code, *args, **kwargs)
+  $venv/werkzeug/exceptions.py @ 861, in __call__                                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/werkzeug/exceptions.py]    raise self.mapping[code](*args, **kwargs)
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+127.0.0.1 - - [17/Feb/2026 21:04:54] "[35m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 500 -
+
+Logic Phase:		ROW LOGIC		(session=0x10e6d63f0) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e6b7a00  session: 0x10e6d63f0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e6b7a00  session: 0x10e6d63f0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: True (Ship Date: 2025-12-26, Date Check: True, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e6b7a00  session: 0x10e6d63f0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e6b7a00  session: 0x10e6d63f0  ins_upd_dlt: ins, initial: ins
+Logic Phase:		COMMIT LOGIC		(session=0x10e6d63f0)   										
+(sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-003', '2025-12-20', '2025-12-26', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - On Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Generic Error: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-003', '2025-12-20', '2025-12-26', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - On Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Error in http://localhost:5656/api/SurtaxOrder/
+Traceback (most recent call last):
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: surtax_order.order_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py", line 462, in _s_post
+    safrs.DB.session.commit()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py", line 599, in commit
+    return self._proxied.commit()
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1313, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py", line 139, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 1288, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4353, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py", line 4449, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py", line 523, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-003', '2025-12-20', '2025-12-26', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - On Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+
+Traceback (most recent call last):
+  $venv/sqlalchemy/engine/base.py @ 1964, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+    )
+    ^
+  $venv/sqlalchemy/engine/default.py @ 942, in do_execute                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py]    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: UNIQUE constraint failed: surtax_order.order_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  $venv/safrs/base.py @ 462, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    safrs.DB.session.commit()
+  $venv/sqlalchemy/orm/scoping.py @ 599, in commit                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py]    return self._proxied.commit()
+  $venv/sqlalchemy/orm/session.py @ 2032, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    trans.commit(_to_root=True)
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1313, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._prepare_impl()
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1288, in _prepare_impl                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self.session.flush()
+  $venv/sqlalchemy/orm/session.py @ 4353, in flush                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._flush(objects)
+  $venv/sqlalchemy/orm/session.py @ 4488, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    with util.safe_reraise():
+  $venv/sqlalchemy/util/langhelpers.py @ 146, in __exit__                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py]    raise exc_value.with_traceback(exc_tb)
+  $venv/sqlalchemy/orm/session.py @ 4449, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    flush_context.execute()
+  $venv/sqlalchemy/orm/unitofwork.py @ 466, in execute                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py]    rec.execute(self)
+  $venv/sqlalchemy/orm/unitofwork.py @ 642, in execute                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/unitofwork.py]    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        uow,
+    )
+    ^
+  $venv/sqlalchemy/orm/persistence.py @ 93, in save_obj                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py]    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+    ...<3 lines>...
+        insert,
+    )
+    ^
+  $venv/sqlalchemy/orm/persistence.py @ 1233, in _emit_insert_statements                            	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/persistence.py]    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  $venv/sqlalchemy/engine/base.py @ 1416, in execute                                                	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  $venv/sqlalchemy/sql/elements.py @ 523, in _execute_on_connection                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/sql/elements.py]    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 1638, in _execute_clauseelement                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  $venv/sqlalchemy/engine/base.py @ 1843, in _execute_context                                       	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 1983, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+    )
+    ^
+  $venv/sqlalchemy/engine/base.py @ 2352, in _handle_dbapi_exception                                	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  $venv/sqlalchemy/engine/base.py @ 1964, in _exec_single_context                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/base.py]    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+    )
+    ^
+  $venv/sqlalchemy/engine/default.py @ 942, in do_execute                                           	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/engine/default.py]    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: surtax_order.order_number
+[SQL: INSERT INTO surtax_order (order_number, entry_date, ship_date, country_origin_id, province_code_id, total_customs_value, total_duty, total_surtax, total_pst_hst, total_amount_due, surtax_applicable, importer_name, broker_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('TEST-2025-003', '2025-12-20', '2025-12-26', 2, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 'Test Importer - On Cutoff', None)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  $venv/safrs/safrs_api.py @ 674, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    result = fun(*args, **kwargs)
+  $venv/safrs/jsonapi.py @ 436, in post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self._create_instance(data)
+  $venv/safrs/jsonapi.py @ 476, in _create_instance                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self.SAFRSObject._s_post(**attributes, **relationships)
+  $venv/safrs/base.py @ 467, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    raise GenericError(str(exc))
+safrs.errors.GenericError
+Exception on /api/SurtaxOrder/ [POST]
+Traceback (most recent call last):
+  $venv/flask/app.py @ 1484, in full_dispatch_request                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/app.py]    rv = self.dispatch_request()
+  $venv/flask/app.py @ 1469, in dispatch_request                                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/app.py]    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  $venv/flask_restful/__init__.py @ 489, in wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    resp = resource(*args, **kwargs)
+  $venv/flask_restful_swagger_2/__init__.py @ 39, in decorator                                      	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful_swagger_2/__init__.py]    return f(*args, **kwargs)
+  $venv/flask/views.py @ 109, in view                                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/views.py]    return current_app.ensure_sync(self.dispatch_request)(**kwargs)
+  $venv/flask_restful/__init__.py @ 604, in dispatch_request                                        	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    resp = meth(*args, **kwargs)
+  $venv/flask_restful_swagger_2/swagger.py @ 219, in inner                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful_swagger_2/swagger.py]    return f(self, *args, **kwargs)
+  $venv/safrs/safrs_api.py @ 708, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    abort(status_code, errors=[errors])
+  $venv/flask_restful/__init__.py @ 32, in abort                                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask_restful/__init__.py]    original_flask_abort(http_status_code)
+  $venv/flask/helpers.py @ 277, in abort                                                            	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/flask/helpers.py]    current_app.aborter(code, *args, **kwargs)
+  $venv/werkzeug/exceptions.py @ 861, in __call__                                                   	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/werkzeug/exceptions.py]    raise self.mapping[code](*args, **kwargs)
+werkzeug.exceptions.InternalServerError: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+127.0.0.1 - - [17/Feb/2026 21:04:54] "[35m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 500 -
+
+Logic Phase:		ROW LOGIC		(session=0x10e6d55b0) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b6d00  session: 0x10e6d55b0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b6d00  session: 0x10e6d55b0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: True (Ship Date: 2026-01-15, Date Check: True, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b6d00  session: 0x10e6d55b0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b6d00  session: 0x10e6d55b0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Constraint Failure: Ship date cannot be before entry date} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b6d00  session: 0x10e6d55b0  ins_upd_dlt: ins, initial: ins
+
+These Rules Fired (see Logic Phases, above, for actual order):		##
+  SurtaxOrder		##
+    1. Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>		##
+    2. Constraint Function: None 		##
+
+Traceback (most recent call last):
+  $venv/safrs/safrs_api.py @ 674, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    result = fun(*args, **kwargs)
+  $venv/safrs/jsonapi.py @ 436, in post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self._create_instance(data)
+  $venv/safrs/jsonapi.py @ 476, in _create_instance                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self.SAFRSObject._s_post(**attributes, **relationships)
+  $venv/safrs/base.py @ 462, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    safrs.DB.session.commit()
+  $venv/sqlalchemy/orm/scoping.py @ 599, in commit                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py]    return self._proxied.commit()
+  $venv/sqlalchemy/orm/session.py @ 2032, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    trans.commit(_to_root=True)
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1313, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._prepare_impl()
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1288, in _prepare_impl                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self.session.flush()
+  $venv/sqlalchemy/orm/session.py @ 4353, in flush                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._flush(objects)
+  $venv/sqlalchemy/orm/session.py @ 4381, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self.dispatch.before_flush(self, flush_context, objects)
+  $venv/sqlalchemy/event/attr.py @ 378, in __call__                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/event/attr.py]    fn(*args, **kw)
+  $venv/logic_bank/exec_trans_logic/listeners.py @ 71, in before_flush                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/exec_trans_logic/listeners.py]    logic_row.insert(reason="client")
+  $venv/logic_bank/exec_row_logic/logic_row.py @ 1285, in insert                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/exec_row_logic/logic_row.py]    self._constraints()
+  $venv/logic_bank/exec_row_logic/logic_row.py @ 792, in _constraints                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/exec_row_logic/logic_row.py]    each_constraint.execute(self)
+  $venv/logic_bank/rule_type/constraint.py @ 87, in execute                                         	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/rule_type/constraint.py]    ll.constraint_event(message=msg, logic_row=logic_row, constraint=self)
+  /config/server_setup.py @ 382, in constraint_handler                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/basic_demo_customs3/config/server_setup.py]    raise ValidationErrorExt(message=message, detail=detail)
+config.server_setup.ValidationErrorExt
+127.0.0.1 - - [17/Feb/2026 21:04:54] "[31m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 400 -
+
+Logic Phase:		ROW LOGIC		(session=0x10e662330) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5160  session: 0x10e662330  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5160  session: 0x10e662330  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: True (Ship Date: 2026-01-20, Date Check: True, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5160  session: 0x10e662330  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2026-001, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Importer - After Cutoff, broker_name: None  row: 0x10e6b5160  session: 0x10e662330  ins_upd_dlt: ins, initial: ins
+Logic Phase:		COMMIT LOGIC		(session=0x10e662330)   										
+Logic Phase:		AFTER_FLUSH LOGIC	(session=0x10e662330)   										
+
+These Rules Fired (see Logic Phases, above, for actual order):		##
+  SurtaxOrder		##
+    1. Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>		##
+
+Logic Phase:		COMPLETE(session=0x10e662330))       	
+127.0.0.1 - - [17/Feb/2026 21:05:12] "[35m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 201 -
+
+Logic Phase:		ROW LOGIC		(session=0x10e6e9150) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e9bc2c0  session: 0x10e6e9150  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e9bc2c0  session: 0x10e6e9150  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: False (Ship Date: 2025-12-20, Date Check: False, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e9bc2c0  session: 0x10e6e9150  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2025-002, entry_date: 2025-12-15 00:00:00, ship_date: 2025-12-20 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: False, importer_name: Test Importer - Before Cutoff, broker_name: None  row: 0x10e9bc2c0  session: 0x10e6e9150  ins_upd_dlt: ins, initial: ins
+Logic Phase:		COMMIT LOGIC		(session=0x10e6e9150)   										
+Logic Phase:		AFTER_FLUSH LOGIC	(session=0x10e6e9150)   										
+
+These Rules Fired (see Logic Phases, above, for actual order):		##
+  SurtaxOrder		##
+    1. Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>		##
+
+Logic Phase:		COMPLETE(session=0x10e6e9150))       	
+127.0.0.1 - - [17/Feb/2026 21:05:12] "[35m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 201 -
+
+Logic Phase:		ROW LOGIC		(session=0x10e6e97b0) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e9bc600  session: 0x10e6e97b0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e9bc600  session: 0x10e6e97b0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: True (Ship Date: 2025-12-26, Date Check: True, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e9bc600  session: 0x10e6e97b0  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2025-003, entry_date: 2025-12-20 00:00:00, ship_date: 2025-12-26 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Importer - On Cutoff, broker_name: None  row: 0x10e9bc600  session: 0x10e6e97b0  ins_upd_dlt: ins, initial: ins
+Logic Phase:		COMMIT LOGIC		(session=0x10e6e97b0)   										
+Logic Phase:		AFTER_FLUSH LOGIC	(session=0x10e6e97b0)   										
+
+These Rules Fired (see Logic Phases, above, for actual order):		##
+  SurtaxOrder		##
+    1. Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>		##
+
+Logic Phase:		COMPLETE(session=0x10e6e97b0))       	
+127.0.0.1 - - [17/Feb/2026 21:05:12] "[35m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 201 -
+
+Logic Phase:		ROW LOGIC		(session=0x10e6e9040) (sqlalchemy before_flush)			
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b5300  session: 0x10e6e9040  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b5300  session: 0x10e6e9040  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Surtax Applicable: True (Ship Date: 2026-01-15, Date Check: True, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b5300  session: 0x10e6e9040  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b5300  session: 0x10e6e9040  ins_upd_dlt: ins, initial: ins
+..SurtaxOrder[None] {Constraint Failure: Ship date cannot be before entry date} id: None, order_number: TEST-2026-004, entry_date: 2026-02-01 00:00:00, ship_date: 2026-01-15 00:00:00, country_origin_id: 2, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Test Invalid Date Order, broker_name: None  row: 0x10e6b5300  session: 0x10e6e9040  ins_upd_dlt: ins, initial: ins
+
+These Rules Fired (see Logic Phases, above, for actual order):		##
+  SurtaxOrder		##
+    1. Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>		##
+    2. Constraint Function: None 		##
+
+Traceback (most recent call last):
+  $venv/safrs/safrs_api.py @ 674, in method_wrapper                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/safrs_api.py]    result = fun(*args, **kwargs)
+  $venv/safrs/jsonapi.py @ 436, in post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self._create_instance(data)
+  $venv/safrs/jsonapi.py @ 476, in _create_instance                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/jsonapi.py]    instance = self.SAFRSObject._s_post(**attributes, **relationships)
+  $venv/safrs/base.py @ 462, in _s_post                                                             	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/safrs/base.py]    safrs.DB.session.commit()
+  $venv/sqlalchemy/orm/scoping.py @ 599, in commit                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/scoping.py]    return self._proxied.commit()
+  $venv/sqlalchemy/orm/session.py @ 2032, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    trans.commit(_to_root=True)
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1313, in commit                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._prepare_impl()
+  $venv/sqlalchemy/orm/state_changes.py @ 139, in _go                                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/state_changes.py]    ret_value = fn(self, *arg, **kw)
+  $venv/sqlalchemy/orm/session.py @ 1288, in _prepare_impl                                          	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self.session.flush()
+  $venv/sqlalchemy/orm/session.py @ 4353, in flush                                                  	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self._flush(objects)
+  $venv/sqlalchemy/orm/session.py @ 4381, in _flush                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py]    self.dispatch.before_flush(self, flush_context, objects)
+  $venv/sqlalchemy/event/attr.py @ 378, in __call__                                                 	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/sqlalchemy/event/attr.py]    fn(*args, **kw)
+  $venv/logic_bank/exec_trans_logic/listeners.py @ 71, in before_flush                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/exec_trans_logic/listeners.py]    logic_row.insert(reason="client")
+  $venv/logic_bank/exec_row_logic/logic_row.py @ 1285, in insert                                    	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/exec_row_logic/logic_row.py]    self._constraints()
+  $venv/logic_bank/exec_row_logic/logic_row.py @ 792, in _constraints                               	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/exec_row_logic/logic_row.py]    each_constraint.execute(self)
+  $venv/logic_bank/rule_type/constraint.py @ 87, in execute                                         	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/venv/lib/python3.13/site-packages/logic_bank/rule_type/constraint.py]    ll.constraint_event(message=msg, logic_row=logic_row, constraint=self)
+  /config/server_setup.py @ 382, in constraint_handler                                              	Follow link: /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/basic_demo_customs3/config/server_setup.py]    raise ValidationErrorExt(message=message, detail=detail)
+config.server_setup.ValidationErrorExt
+127.0.0.1 - - [17/Feb/2026 21:05:12] "[31m[1mPOST /api/SurtaxOrder/ HTTP/1.1[0m" 400 -

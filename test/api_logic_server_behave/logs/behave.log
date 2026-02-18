@@ -1,0 +1,83 @@
+Feature: About Sample # features/about.feature:6
+
+  Scenario: Transaction Processing                           # features/about.feature:8
+    Given Sample Database                                    # features/steps/about.py:8
+    When Transactions are submitted                          # features/steps/about.py:12
+    Then Enforce business policies with Logic (rules + code) # features/steps/about.py:16
+
+Feature: CBSA Steel Derivative Goods Surtax # features/cbsa_surtax.feature:1
+
+  Background: Load Sample Database  # features/cbsa_surtax.feature:3
+
+  Scenario: Surtax applies for post-cutoff ship date with surtax country                           # features/cbsa_surtax.feature:6
+    Given the CBSA surtax database is loaded                                                       # features/steps/cbsa_surtax.py:82
+    Given a SurtaxOrder for Germany to Ontario with ship_date 2026-01-15 and entry_date 2026-01-10 # features/steps/cbsa_surtax.py:90
+      Assertion Failed: Country not found: Germany (DE)
+
+    When a line item is added with hs_code 7208.10.00 quantity 1000 and unit_price 500.00          # None
+    Then the line item customs_value is 500000.00                                                  # None
+    And the line item surtax_amount is 125000.00                                                   # None
+    And the line item duty_amount is 0.00                                                          # None
+    And the line item pst_hst_amount is 81250.00                                                   # None
+    And the line item total_amount is 706250.00                                                    # None
+    And the order surtax_applicable is True                                                        # None
+    And the order total_customs_value is 500000.00                                                 # None
+    And the order total_surtax is 125000.00                                                        # None
+    And the order total_amount_due is 706250.00                                                    # None
+
+  Scenario: No surtax for pre-cutoff ship date                                                  # features/cbsa_surtax.feature:19
+    Given the CBSA surtax database is loaded                                                    # features/steps/cbsa_surtax.py:82
+    Given a SurtaxOrder for Japan to Quebec with ship_date 2025-12-20 and entry_date 2025-12-15 # features/steps/cbsa_surtax.py:90
+      Assertion Failed: Country not found: Japan (JP)
+
+    When a line item is added with hs_code 7213.91.00 quantity 500 and unit_price 200.00        # None
+    Then the line item customs_value is 100000.00                                               # None
+    And the line item surtax_amount is 0.00                                                     # None
+    And the order surtax_applicable is False                                                    # None
+    And the order total_surtax is 0.00                                                          # None
+
+  Scenario: No surtax for non-surtax country (Mexico)                                             # features/cbsa_surtax.feature:27
+    Given the CBSA surtax database is loaded                                                      # features/steps/cbsa_surtax.py:82
+    Given a SurtaxOrder for Mexico to Alberta with ship_date 2026-02-01 and entry_date 2026-01-25 # features/steps/cbsa_surtax.py:90
+      Assertion Failed: Country not found: Mexico (MX)
+
+    When a line item is added with hs_code 7308.90.00 quantity 200 and unit_price 150.00          # None
+    Then the line item customs_value is 30000.00                                                  # None
+    And the line item surtax_amount is 0.00                                                       # None
+    And the order surtax_applicable is False                                                      # None
+
+  Scenario: Order totals roll up from multiple line items                                                         # features/cbsa_surtax.feature:34
+    Given the CBSA surtax database is loaded                                                                      # features/steps/cbsa_surtax.py:82
+    Given a SurtaxOrder for United States to British Columbia with ship_date 2025-12-28 and entry_date 2025-12-20 # features/steps/cbsa_surtax.py:90
+      Assertion Failed: Country not found: United States (US)
+
+    When a line item is added with hs_code 7304.31.00 quantity 100 and unit_price 1000.00                         # None
+    And a second line item is added with hs_code 7306.30.00 quantity 50 and unit_price 800.00                     # None
+    Then the order total_customs_value is 140000.00                                                               # None
+    And the order total_surtax is 35000.00                                                                        # None
+
+  Scenario: Constraint - ship date cannot be before entry date                                   # features/cbsa_surtax.feature:41
+    Given the CBSA surtax database is loaded                                                     # features/steps/cbsa_surtax.py:82
+    Given a SurtaxOrder for China to Ontario with ship_date 2026-01-01 and entry_date 2026-01-15 # features/steps/cbsa_surtax.py:90
+      Assertion Failed: Country not found: China (CN)
+
+    Then the order is rejected with error Ship date cannot be before entry date                  # None
+
+  Scenario: Constraint - quantity must be positive                                                 # features/cbsa_surtax.feature:45
+    Given the CBSA surtax database is loaded                                                       # features/steps/cbsa_surtax.py:82
+    Given a SurtaxOrder for Germany to Ontario with ship_date 2026-02-01 and entry_date 2026-01-20 # features/steps/cbsa_surtax.py:90
+      Assertion Failed: Country not found: Germany (DE)
+
+    When a line item is added with hs_code 7208.10.00 quantity -10 and unit_price 100.00           # None
+    Then the line item is rejected with error Quantity must be greater than zero                   # None
+
+  Scenario: Constraint - unit price must be positive                                               # features/cbsa_surtax.feature:50
+    Given the CBSA surtax database is loaded                                                       # features/steps/cbsa_surtax.py:82
+    Given a SurtaxOrder for Germany to Ontario with ship_date 2026-02-01 and entry_date 2026-01-20 # features/steps/cbsa_surtax.py:90
+      Assertion Failed: Country not found: Germany (DE)
+
+    When a line item is added with hs_code 7208.10.00 quantity 100 and unit_price -50.00           # None
+    Then the line item is rejected with error Unit price must be greater than zero                 # None
+
+&nbsp;&nbsp;
+/Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/basic_demo_customs3/test/api_logic_server_behave/behave_run.py completed at February 18, 2026 08:57:49

@@ -1,0 +1,146 @@
+
+API Logic Project Server Setup (basic_demo_customs3) Starting with CLI args: 
+.. api_logic_server_run.py
+
+Created August 03, 2024 09:34:01 at /Users/val/dev/ApiLogicServer/ApiLogicServer-dev/build_and_test/ApiLogicServer/basic_demo_customs3
+
+Data Model Loaded, customizing...
+..discovered models: []
+LogicBank Activation - declare_logic.py
+..discovered logic: ['use_case.py', 'cbsa_steel_surtax.py']
+
+The following rules have been loaded
+Rule Bank[0x10c6f30e0] (loaded 2026-02-17 20:55:12.583824)
+Mapped Class[SurtaxLineItem] rules:
+  Derive <class 'database.models.SurtaxLineItem'>.customs_value as Formula (-1): as_expression=lambda row: row.quantity * row.unit [...]
+  Derive <class 'database.models.SurtaxLineItem'>.duty_rate as Copy(hs_code_rate.base_duty_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_rate as Copy(hs_code_rate.surtax_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.duty_amount as Formula (-1): as_expression=lambda row: row.customs_value * (ro [...]
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_amount as Formula (-1): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_rate as Formula (-1): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_amount as Formula (-1): as_expression=lambda row: (row.customs_value + (r [...]
+  Derive <class 'database.models.SurtaxLineItem'>.total_amount as Formula (-1): as_expression=lambda row: (row.customs_value + 
+  [...]
+  Constraint Function: None 
+  Constraint Function: None 
+Mapped Class[SurtaxOrder] rules:
+  Derive <class 'database.models.SurtaxOrder'>.total_customs_value as Sum(SurtaxLineItem.customs_value Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_duty as Sum(SurtaxLineItem.duty_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_surtax as Sum(SurtaxLineItem.surtax_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_pst_hst as Sum(SurtaxLineItem.pst_hst_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_amount_due as Sum(SurtaxLineItem.total_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (-1): <function>
+  Constraint Function: None 
+
+The following attributes have been referenced
+
+..SurtaxLineItem.quantity: - formula
+..SurtaxLineItem.unit_price: - formula
+..SurtaxLineItem.duty_rate: parent copy derivation
+..HSCodeRate.base_duty_rate: parent copy from
+..SurtaxLineItem.surtax_rate: parent copy derivation
+..HSCodeRate.surtax_rate: parent copy from
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.duty_rate: - formula
+..SurtaxLineItem.surtax_order: - formula
+..SurtaxLineItem.surtax_order.surtax_applicable:: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.surtax_rate: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.surtax_order: - formula
+..SurtaxLineItem.surtax_order: - formula
+..SurtaxLineItem.surtax_order.province_tax_rate:: - formula
+..SurtaxLineItem.pst_hst_rate: - formula
+..SurtaxLineItem.surtax_order.province_tax_rate: - formula
+..SurtaxLineItem.pst_hst_rate: - formula
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.duty_amount: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.pst_hst_rate: - formula
+..SurtaxLineItem.customs_value: - formula
+..SurtaxLineItem.duty_amount: - formula
+..SurtaxLineItem.surtax_amount: - formula
+..SurtaxLineItem.pst_hst_amount: - formula
+..SurtaxLineItem.quantity: constraint
+..SurtaxLineItem.quantity: constraint
+..SurtaxLineItem.unit_price: constraint
+..SurtaxLineItem.unit_price: constraint
+..SurtaxOrder.total_customs_value: aggregate derivation
+..SurtaxLineItem.customs_value: sum derived from
+..SurtaxOrder.total_duty: aggregate derivation
+..SurtaxLineItem.duty_amount: sum derived from
+..SurtaxOrder.total_surtax: aggregate derivation
+..SurtaxLineItem.surtax_amount: sum derived from
+..SurtaxOrder.total_pst_hst: aggregate derivation
+..SurtaxLineItem.pst_hst_amount: sum derived from
+..SurtaxOrder.total_amount_due: aggregate derivation
+..SurtaxLineItem.total_amount: sum derived from
+..SurtaxOrder.ship_date: - formula
+..SurtaxOrder.ship_date: - formula
+..SurtaxOrder.country_origin.surtax_applicable: - formula
+..SurtaxOrder.country_origin: - formula
+..SurtaxOrder.surtax_applicable: - formula
+..SurtaxOrder.country_origin: - formula
+..SurtaxOrder.ship_date: constraint
+..SurtaxOrder.entry_date: constraint
+
+The following rules have been activated
+Rule Bank[0x10c6f30e0] (loaded 2026-02-17 20:55:12.583824)
+Mapped Class[SurtaxLineItem] rules:
+  Derive <class 'database.models.SurtaxLineItem'>.customs_value as Formula (1): as_expression=lambda row: row.quantity * row.unit [...]
+  Derive <class 'database.models.SurtaxLineItem'>.duty_rate as Copy(hs_code_rate.base_duty_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_rate as Copy(hs_code_rate.surtax_rate)
+  Derive <class 'database.models.SurtaxLineItem'>.duty_amount as Formula (2): as_expression=lambda row: row.customs_value * (ro [...]
+  Derive <class 'database.models.SurtaxLineItem'>.surtax_amount as Formula (3): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_rate as Formula (4): <function>
+  Derive <class 'database.models.SurtaxLineItem'>.pst_hst_amount as Formula (5): as_expression=lambda row: (row.customs_value + (r [...]
+  Derive <class 'database.models.SurtaxLineItem'>.total_amount as Formula (6): as_expression=lambda row: (row.customs_value + 
+  [...]
+  Constraint Function: None 
+  Constraint Function: None 
+Mapped Class[SurtaxOrder] rules:
+  Derive <class 'database.models.SurtaxOrder'>.total_customs_value as Sum(SurtaxLineItem.customs_value Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_duty as Sum(SurtaxLineItem.duty_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_surtax as Sum(SurtaxLineItem.surtax_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_pst_hst as Sum(SurtaxLineItem.pst_hst_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.total_amount_due as Sum(SurtaxLineItem.total_amount Where  - None)
+  Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>
+  Constraint Function: None 
+Logic Bank 1.30.00 - 21 rules loaded
+Exposing /CountryOrigin
+Exposing /Customer
+Exposing /HSCodeRate
+Exposing /Item
+Exposing /Order
+Exposing /Product
+Exposing /ProductSupplier
+Exposing /ProvinceTaxRate
+Exposing /Supplier
+Exposing /SurtaxLineItem
+Exposing /SurtaxOrder
+Declare   API - api/expose_api_models, endpoint for each table on localhost:5656, customizing...
+..discovered services: ['ontimize_api.py', 'system.py', 'mcp_discovery.py', 'new_service.py', 'newer_service.py']
+Kafka Consumer not activated
+
+API Logic Project loaded (not WSGI), version: 16.01.30
+.. startup message: normal start
+ (running locally at flask_host: 0.0.0.0)
+
+API Logic Project (name: basic_demo_customs3) starting:
+..Explore data and API at http_scheme://swagger_host:port http://localhost:5656   *
+.... with flask_host: 0.0.0.0
+.... and  swagger_port: 5656
+
+Alert: These following are **Critical** to unlocking value for project: basic_demo_customs3:
+.. see logic.declare_logic.py       -- 
+.. see security.declare_security.py -- ALERT:  *** Security Not Enabled ***
+
+
+*************************************************************************
+*   Startup Instructions: Open your Browser at: http://localhost:5656   *
+*************************************************************************
+
+ * Serving Flask app 'API Logic Server'
+Address already in use
+Port 5656 is in use by another program. Either identify and stop that program, or start the server with a different port.

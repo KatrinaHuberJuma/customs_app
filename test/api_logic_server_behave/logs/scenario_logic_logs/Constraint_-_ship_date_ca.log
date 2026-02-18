@@ -1,0 +1,18 @@
+
+
+
+Constraint_-_ship_date_ca - starting CBSA surtax test
+
+ - 2026-02-18 09:16:38,911 - logic_logger - INFO
+
+Logic Phase:		ROW LOGIC		(session=0x10cb286b0) (sqlalchemy before_flush)			 - 2026-02-18 09:16:38,914 - logic_logger - INFO
+..SurtaxOrder[None] {Insert - client} id: None, order_number: TEST-CH-6270bffb, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-01 00:00:00, country_origin_id: 1, province_code_id: 1, total_customs_value: None, total_duty: None, total_surtax: None, total_pst_hst: None, total_amount_due: None, surtax_applicable: None, importer_name: Behave Test - China, broker_name: None  row: 0x10cc329c0  session: 0x10cb286b0  ins_upd_dlt: ins, initial: ins - 2026-02-18 09:16:38,915 - logic_logger - INFO
+..SurtaxOrder[None] {server aggregate_defaults: total_customs_value total_duty total_surtax total_pst_hst total_amount_due } id: None, order_number: TEST-CH-6270bffb, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-01 00:00:00, country_origin_id: 1, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Behave Test - China, broker_name: None  row: 0x10cc329c0  session: 0x10cb286b0  ins_upd_dlt: ins, initial: ins - 2026-02-18 09:16:38,917 - logic_logger - INFO
+..SurtaxOrder[None] {Surtax Applicable: True (Ship Date: 2026-01-01, Date Check: True, Country Check: True, Cutoff: 2025-12-26)} id: None, order_number: TEST-CH-6270bffb, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-01 00:00:00, country_origin_id: 1, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: None, importer_name: Behave Test - China, broker_name: None  row: 0x10cc329c0  session: 0x10cb286b0  ins_upd_dlt: ins, initial: ins - 2026-02-18 09:16:38,920 - logic_logger - INFO
+..SurtaxOrder[None] {Formula surtax_applicable} id: None, order_number: TEST-CH-6270bffb, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-01 00:00:00, country_origin_id: 1, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Behave Test - China, broker_name: None  row: 0x10cc329c0  session: 0x10cb286b0  ins_upd_dlt: ins, initial: ins - 2026-02-18 09:16:38,920 - logic_logger - INFO
+..SurtaxOrder[None] {Constraint Failure: Ship date cannot be before entry date} id: None, order_number: TEST-CH-6270bffb, entry_date: 2026-01-15 00:00:00, ship_date: 2026-01-01 00:00:00, country_origin_id: 1, province_code_id: 1, total_customs_value: 0, total_duty: 0, total_surtax: 0, total_pst_hst: 0, total_amount_due: 0, surtax_applicable: True, importer_name: Behave Test - China, broker_name: None  row: 0x10cc329c0  session: 0x10cb286b0  ins_upd_dlt: ins, initial: ins - 2026-02-18 09:16:38,921 - logic_logger - INFO
+
+These Rules Fired (see Logic Phases, above, for actual order):		## - 2026-02-18 09:16:38,921 - logic_logger - INFO
+  SurtaxOrder		## - 2026-02-18 09:16:38,921 - logic_logger - INFO
+    1. Constraint Function: None 		## - 2026-02-18 09:16:38,921 - logic_logger - INFO
+    2. Derive <class 'database.models.SurtaxOrder'>.surtax_applicable as Formula (1): <function>		## - 2026-02-18 09:16:38,921 - logic_logger - INFO
