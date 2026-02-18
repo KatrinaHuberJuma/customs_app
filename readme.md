@@ -1,16 +1,31 @@
 # Customs Surtax POC — Engineering README
 
-**Audience:** Engineering colleagues evaluating GenAI-Logic
+**Audience:** Technical GenAI-Logic evaluators
 **Project:** CBSA Steel Derivative Goods Surtax calculator, built as a proof-of-concept for FedEx
+
+
+
+# Results: a tested application
+
+## Application: API, Database, Logic, Admin App
 
 ![app](images/app_screenshot.png)
 
-## Creation
+## Testing
 
+![[behave_report_git.png]]
+## How This Was Created
+
+### Subsystem
 The subsystem was created by providing the following prompt to Copilot:
 
 ```text
 Create a fully functional application and database for CBSA Steel Derivative Goods Surtax Order PC Number: 2025-0917 on 2025-12-11 and annexed Steel Derivative Goods Surtax Order under subsection 53(2) and paragraph 79(a) of the Customs Tariff program code 25267A to calculate duties and taxes including provincial sales tax or HST where applicable when hs codes, country of origin, customs value, and province code and ship date >= '2025-12-26' and create runnable ui with examples from Germany, US, Japan and China" this prompt created the tables in db.sqlite.
+```
+
+### Tests
+```text
+create behave tests from CBSA_SURTAX_GUIDE.md
 ```
 
 ---
@@ -130,9 +145,18 @@ The contrast with procedural code is quantified in `logic/procedural/declarative
 
 ---
 
-## 6. AI Use and Determinism
+## 6. AI Use: Human In the Loop, Determinism
 
-Rules in `logic/logic_discovery/cbsa_steel_surtax.py` execute deterministically at transaction commit time via SQLAlchemy ORM events. There is no inference, no sampling, and no variability: given the same input state, the same output is always produced. All writes to the database — through the REST API, through the Behave test suite, through the Admin UI at `/admin-app`, or through any agent or script — pass through the identical rule set. The execution order is computed once at startup from the declared dependency graph, not from code paths at runtime.
+While the system was *created* using AI, that was authoring only.  The expectation is that developers remain the ***human in the loop*** to verify the rules, and debug them.
+
+The created Rules in `logic/logic_discovery/cbsa_steel_surtax.py` execute **deterministically** at transaction commit time via SQLAlchemy ORM events. There is no inference, no sampling, and no variability: given the same input state, the same output is always produced. 
+
+All writes to the database — through the REST API, through the Behave test suite, through the Admin UI at `/admin-app`, or through any agent or script — pass through the identical rule set. The execution order is computed once at startup from the declared dependency graph, not from code paths at runtime.
+
+### AI Rules
+The system does support AI rules (though not used here).  Importantly, these are subjected to this same governance:
+
+> AI may propose values, but rules determine what commits.
 
 ---
 
@@ -144,13 +168,21 @@ Rules fire by architectural necessity, not by policy. The LogicBank engine hooks
 
 ## 8. What This Is Not
 
-The rules engine enforces data integrity at write time. It is not a tool for read-only analytics or reporting — SQL views, BI tools, or direct query optimization are appropriate there. It is not a workflow orchestration engine: multi-step approval processes, long-running sagas, and external system coordination belong in tools like Temporal or Airflow. It does not replace complex algorithms — machine learning models, graph traversal, or combinatorial optimization are pure Python problems. Rules solve one specific problem well: ensuring that defined data relationships are always true, across every write path, automatically.
+The rules engine enforces data integrity at write time. It is not a tool for read-only analytics or reporting — SQL views, BI tools, or direct query optimization are appropriate there. 
+
+It is not a workflow orchestration engine: multi-step approval processes, long-running sagas, and external system coordination belong in tools like Temporal or Airflow. It does not replace complex algorithms — machine learning models, graph traversal, or combinatorial optimization are pure Python problems. 
+
+Rules solve one specific problem well: ensuring that defined data relationships are always true, across every write path, automatically.
 
 ---
 
 ## 9. A/B Result
 
-For the foundational order management case, 5 declarative rules replaced 220+ lines of AI-generated procedural code, and the procedural version contained 2 critical bugs — one for `Order.customer_id` reassignment (old customer balance not decremented) and one for `Item.product_id` reassignment (unit price not re-copied from new product) — that were only discovered through directed prompting. The full experiment, including the original procedural code and the AI's own analysis of why it failed, is documented in `logic/procedural/declarative-vs-procedural-comparison.md`.
+For the foundational order management case, 5 declarative rules replaced 220+ lines of AI-generated procedural code, and the procedural version contained 2 critical bugs that were only discovered through directed prompting:
+* one for `Order.customer_id` reassignment (old customer balance not decremented) and 
+* one for `Item.product_id` reassignment (unit price not re-copied from new product)
+
+The full experiment, including the original procedural code and the AI's own analysis of why it failed, is documented in `logic/procedural/declarative-vs-procedural-comparison.md`.  (tL;DR: pattern-matching AI deals poorly with complex dependencies common to business logic).
 
 ---
 
