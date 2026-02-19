@@ -57,14 +57,15 @@ The following artifacts were generated and are present in this repository.
 
 ---
 
-## 2. Context Engineering Journey
+## 2. Context Engineering - High Leverage, With Background
 
-This app was built across four iterations. Each iteration revealed a specific gap in Context Engineering (CE) — the curated knowledge given to the AI before generation. The gaps and their fixes are documented below.
+This app was built across several iterations. Each iteration revealed a specific gap in Context Engineering (CE) — the curated knowledge given to the AI before generation. The gaps and their fixes are documented below.
 
 <details>
 <summary><strong>Step 0 — App built without GenAI-Logic context</strong></summary>
 
-**What happened:** Claude built a working customs application using standard Python code generation — procedural logic embedded in API endpoints, no LogicBank rules, no declarative enforcement.
+**What happened:** 
+Claude built a working customs application using standard Python code generation — procedural logic embedded in API endpoints, no LogicBank rules, no declarative enforcement.
 
 **Why:** The GenAI-Logic Context Engineering materials were not loaded. Claude had no knowledge of the platform and defaulted to familiar patterns.
 
@@ -75,43 +76,40 @@ This app was built across four iterations. Each iteration revealed a specific ga
 </details>
 
 <details>
-<summary><strong>Step 1 — Context Engineering loaded; logic landed in the wrong place</strong></summary>
+<summary><strong>Step 1 — No Rules, Poor Data Model ( → CE fixes)</strong></summary>
 
-**What happened:** Claude rebuilt the app with GenAI-Logic context and produced a Custom API service, but implemented the business calculations as procedural code inside the endpoint handlers rather than as declarative LogicBank rules.
-
-**Why:** The Context Engineering described that rules exist but did not give Claude explicit guidance on architectural boundaries — specifically, that calculations belong in `logic/logic_discovery/` as `Rule.*` declarations, not as Python code executing inside a Flask route. The Request Object Pattern (how LogicBank rule functions receive `row`, `old_row`, and `logic_row`) was absent from the CE materials.
-
-**Insight:** Knowing a framework exists is not sufficient. Context Engineering must explicitly specify where each category of code belongs. Without a concrete pattern showing the rule function signature and the separation between API orchestration and rule enforcement, AI defaults to writing business logic where it last saw similar code — in endpoint handlers.
-
-**Action:** Updated Context Engineering to document the Request Object Pattern, show a worked example of a formula rule with `row` / `old_row` / `logic_row` parameters, and state explicitly that business calculations and constraints belong in `logic/logic_discovery/` rules, not in API endpoint code.
-
-</details>
-
-<details>
-<summary><strong>Step 2 — Context Engineering updated; subsystem generation exposed new gaps</strong></summary>
-
-**What happened:** Claude attempted a full rebuild and produced poor results on two dimensions: data model errors (non-autonumber primary keys for `SurtaxOrder` and `SurtaxLineItem`) and business logic still written as procedural code rather than declarative rules.
+**What happened:** 
+Claude attempted a full rebuild and produced poor results on two dimensions: 
+1. data model errors (non-autonumber primary keys for `SurtaxOrder` and `SurtaxLineItem`) and 
+2. business logic still written as procedural code rather than declarative rules.
 
 **Why:** The Context Engineering had been written to guide iterative micro-edits to an existing project — small additions and corrections one at a time. Generating a complete subsystem from scratch is a different task that exposed two separate gaps. First, CE contained no explicit data model conventions, so Claude improvised primary key patterns. Second, CE described rules but did not provide an unambiguous preference signal: when both procedural code and declarative rules are valid Python, Claude will default to procedural without a clear directive.
 
 **Insight:** Context Engineering must match the scale of the generation task. Guidance written for incremental editing does not transfer automatically to greenfield subsystem generation. Subsystem generation requires: (1) explicit data model conventions (e.g., autonumber integer PKs), and (2) an unambiguous preference directive — not just "rules are available" but "use a rule whenever a calculation or constraint is involved."
 
-**Action:** Updated Context Engineering to add a data model advisory (integer autonumber primary keys required) and an explicit preference rule: use `Rule.*` declarations over endpoint code for any calculation, derivation, copy, or constraint.
+**Action:** Updated Context Engineering to 
+1. add a data model advisory (integer autonumber primary keys required) and 
+2. an explicit preference rule: use `Rule.*` declarations over endpoint code for any calculation, derivation, copy, or constraint.
 
 </details>
 
 <details>
-<summary><strong>Step 3 — Production-ready app generated correctly on first attempt</strong></summary>
+<summary><strong>Step 2 — Proper app generated correctly on first attempt</strong></summary>
 
-**What happened:** With the revised CE in place, Claude generated a complete, correct customs application in a single pass: proper autonumber data model, 16 declarative LogicBank rules enforcing all calculations, clean separation between API routing and rule enforcement, and a Behave test suite with requirement-to-rule traceability.
+**What happened:** 
+With the revised CE in place, Claude generated a complete, correct customs application in a single pass: proper autonumber data model, 16 declarative LogicBank rules enforcing all calculations, clean separation between API routing and rule enforcement, and a Behave test suite with requirement-to-rule traceability.
 
-**Why it worked:** Every previous failure mode had been addressed: platform awareness (Step 0), architectural placement (Step 1), data model conventions and rule preference signal (Step 2).
+**Why it worked:** Every previous failure mode had been addressed: platform awareness (Step 0), data model conventions and rule preference signal (Step 1).
 
-**Insight:** Context Engineering compounds. Each prior failure encoded a reusable correction. Any future project that loads this CE material starts at Step 3 — the failures were compressed into training assets, not wasted effort.
+**Insight:** Context Engineering learning compounds. Each prior failure encoded a reusable correction. Any future project that loads this CE material starts at Step 2 — the failures were compressed into training assets, not wasted effort.
 
 **What this means for evaluation:** The product (GenAI-Logic) provides the architectural value. The process (Context Engineering iteration) determines whether the AI can reach that architecture reliably. Both matter.
 
 </details>
+
+<br>
+
+> Key Takeaway: GenAI-Logic is a combination of infrastructure (API, Rules Engine), and AI.  Leveraging AI requires Context Engineering.  <br><br>This can enable major changes without a product re-release, but strong support/background is required.
 
 ---
 
@@ -184,7 +182,7 @@ You cannot bypass enforcement by calling a different endpoint, using a different
 
 ---
 
-## 8. What This Is Not
+## 8. What GenAI-Logic Is Not
 
 The rules engine enforces data integrity at write time. It is not a tool for read-only analytics or reporting — SQL views, BI tools, or direct query optimization are appropriate there. 
 
