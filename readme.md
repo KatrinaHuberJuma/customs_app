@@ -61,13 +61,24 @@ The core GenAI-Logic [software architecture](https://www.genai-logic.com/product
 
 #### Context Engineering: Automation Aware AI
 
-GenAI-Logic projects are [AI-Enabled](https://apilogicserver.github.io/Docs/Project-AI-Enabled/): each project contains extensive markdown files that enable AI to understand and create Logic Automation components.  For example, markdown files explain rule syntax, so AI can translate NL Logic into declarative rules.
+GenAI-Logic projects are [AI-Enabled](https://apilogicserver.github.io/Docs/Project-AI-Enabled/): each project contains extensive Context Engineering (markdown files) that enable AI to understand and create Logic Automation components.  
+
+For example, markdown files explain rule syntax, so AI can translate NL Logic into declarative rules.
+
+
+##### Highly Leveraged; Support Recommended
+
+As part of your project, you can extend Context Engineering.  We did so in this project (see section 2).
+
+Such extensions require extensive architectural background, so training and support are recommended.
 
 <br>
 
-#### Runtime Architecture - standard container, AI on request only
+#### Runtime Architecture: Container, Governed AI
 
-The resultant projects are standard containers.  Execution does *not* use probabilistic AI services *except* for explict AI Rules; these results are strictly governed by deterministic rules at commit time
+The resultant projects are standard containers.  Deploy without fees.  Sample scripts are provided for Azure.
+
+Execution does *not* use probabilistic AI services *except* for explict AI Rules; these results are strictly governed by deterministic rules at commit time
 
 
 ---
@@ -94,7 +105,7 @@ The following artifacts were generated and are present in this repository.
 
 ---
 
-## 2. Context Engineering - High Leverage, Background Req'd
+## 2. Context Engineering Revision: Subsystem Creation
 
 This app was built across several iterations. Each iteration revealed a specific gap in Context Engineering (CE) — the curated knowledge given to the AI before generation. The gaps and their fixes are documented below.
 
