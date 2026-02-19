@@ -31,7 +31,7 @@ create behave tests from CBSA_SURTAX_GUIDE.md
 The GenAI-Logic `create` command builds test services and Context Engineering. These enable the LLM to generate tests that proved the code worked, as well as elucidate the logic through readable test reports.
 
 
-![[behave_report_git.png]]
+![behave rpt](images/behave_report_git.png)
 
 ---
 

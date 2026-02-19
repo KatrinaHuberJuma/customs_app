@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "readme.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -78,8 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 204.5
   },
   "right": {
     "id": "a41a3b9a5e5eba52",
@@ -158,8 +157,8 @@
               "type": "outline",
               "state": {
                 "file": "readme.md",
-                "followCursor": false,
-                "showSearch": false,
+                "followCursor": true,
+                "showSearch": true,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
@@ -171,7 +170,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 446.5
+    "width": 398.5
   },
   "left-ribbon": {
     "hiddenItems": {
