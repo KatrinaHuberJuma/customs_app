@@ -64,16 +64,23 @@ The following artifacts were generated and are present in this repository.
 This app was built across several iterations. Each iteration revealed a specific gap in Context Engineering (CE) — the curated knowledge given to the AI before generation. The gaps and their fixes are documented below.
 
 <details>
-<summary><strong>Step 0 — App built without GenAI-Logic context</strong></summary>
+<summary><strong>Step 0 — No GenAI-Logic Context Engineering → serious architectural issue</strong></summary>
 
 **What happened:** 
-Claude built a working customs application using standard Python code generation — procedural logic embedded in API endpoints, no LogicBank rules, no declarative enforcement.
+Claude built a working customs application using standard Python code generation. 
 
-**Why:** The GenAI-Logic Context Engineering materials were not loaded. Claude had no knowledge of the platform and defaulted to familiar patterns.
+**Why:** The GenAI-Logic Context Engineering materials were not loaded. Claude had no knowledge of the platform and defaulted to standard, familiar patterns.
 
-**Insight:** Without Context Engineering, an AI cannot apply a framework it doesn't know exists. The result compiles and runs, but delivers none of the architectural value: no rule enforcement, no bypass protection, no code reduction relative to hand-written procedural code.
+**Insight:** Without Context Engineering, an AI cannot apply a framework it doesn't know exists. The result is a good demo: compiles and runs.  ***It does not deliver an Enterprise-class architecture:***
 
-**Action:** Loaded the full GenAI-Logic Context Engineering materials (`.github/.copilot-instructions.md`) before the next generation attempt.
+1. No Enterprise-class API with filtering, sorting, pagination, optimistic locking, etc.
+2. Logic embedded in a single path - not automatically shared
+3. Logic is *procedural* with explicit ordering.  **AI uses pattern matching to order execution, which can fail for business logic** - to see the A/B study, [**click here**](logic/procedural/declarative-vs-procedural-comparison.md).
+
+    a. This in fact did occur in our example
+
+**Action:** Loaded the full GenAI-Logic Context Engineering materials (`.github/.copilot-instructions.md`) for the next generation attempt.
+
 
 </details>
 
