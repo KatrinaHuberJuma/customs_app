@@ -2,7 +2,7 @@
 
 **Audience:** Technical GenAI-Logic evaluators
 
-**Project:** CBSA Steel Derivative Goods Surtax calculator, built as a proof-of-concept for FedEx
+**Project:** CBSA Steel Derivative Goods Surtax calculator, built as a proof-of-concept.
 
 ## Overview
 
