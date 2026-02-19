@@ -66,6 +66,8 @@ This app was built across several iterations. Each iteration revealed a specific
 <details>
 <summary><strong>Step 0 — No GenAI-Logic Context Engineering → serious architectural issue</strong></summary>
 
+<br>
+
 **What happened:** 
 Claude built a working customs application using standard Python code generation. 
 
@@ -81,11 +83,14 @@ Claude built a working customs application using standard Python code generation
 
 **Action:** Loaded the full GenAI-Logic Context Engineering materials (`.github/.copilot-instructions.md`) for the next generation attempt.
 
-
 </details>
+
+<br>
 
 <details>
 <summary><strong>Step 1 — No Rules, Poor Data Model ( → CE fixes)</strong></summary>
+
+<br>
 
 **What happened:** 
 Claude attempted a full rebuild and produced poor results on two dimensions: 
@@ -102,8 +107,12 @@ Claude attempted a full rebuild and produced poor results on two dimensions:
 
 </details>
 
+<br>
+
 <details>
 <summary><strong>Step 2 — Proper app generated correctly on first attempt</strong></summary>
+
+<br>
 
 **What happened:** 
 With the revised CE in place, Claude generated a complete, correct customs application in a single pass: proper autonumber data model, 16 declarative LogicBank rules enforcing all calculations, clean separation between API routing and rule enforcement, and a Behave test suite with requirement-to-rule traceability.
