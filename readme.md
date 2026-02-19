@@ -1,11 +1,12 @@
 # Customs Surtax POC — Engineering README
 
 **Audience:** Technical GenAI-Logic evaluators
+
 **Project:** CBSA Steel Derivative Goods Surtax calculator, built as a proof-of-concept for FedEx
 
 ## Overview
 
-### Created with Two Prompts
+### Two Creation Prompts
 
 #### Subsystem Prompt
 The subsystem was created by providing the following prompt to Copilot:
@@ -19,6 +20,7 @@ Create a fully functional application and database for CBSA Steel Derivative Goo
 create behave tests from CBSA_SURTAX_GUIDE.md
 ```
 
+<br>
 
 ### Results: a tested application
 
@@ -53,7 +55,7 @@ The following artifacts were generated and are present in this repository.
 
 **Reference data loader** — `load_cbsa_data.py` populates HS codes, countries, and provincial tax rates from CBSA PC 2025-0917.
 
-
+<br>
 
 ---
 
@@ -111,6 +113,8 @@ With the revised CE in place, Claude generated a complete, correct customs appli
 
 > Key Takeaway: GenAI-Logic is a combination of infrastructure (API, Rules Engine), and AI.  Leveraging AI requires Context Engineering.  <br><br>This can enable major changes without a product re-release, but strong support/background is required.
 
+<br>
+
 ---
 
 ## 3. Test Creation From Rules
@@ -135,6 +139,8 @@ The Behave Logic Report (`test/api_logic_server_behave/behave_logic_report.py`) 
 
 For example, the scenario `Surtax applies for post-cutoff ship date with surtax country` in `features/cbsa_surtax.feature` traces through the `determine_surtax_applicability` formula rule, the `calculate_surtax_amount` formula rule, the `copy_pst_hst_rate` formula rule, and all five sum rules up to the order totals — all triggered by a single line-item insert.
 
+<br>
+
 ---
 
 ## 4. Debugging: Standard IDE, Logging
@@ -149,6 +155,8 @@ Surtax Applicable: True (Ship Date: 2026-01-15, Date Check: True, Country Check:
 
 To extract a clean logic trace for a specific transaction, set the log level to `DEBUG` in `config/logging.yml` and filter on the `logic_logger` name. The debug documentation for logic traces is in `docs/logic/readme.md`. The `test_date_fix.sh` script at the project root demonstrates extracting and validating specific logic log output.
 
+<br>
+
 ---
 
 ## 5. Maintenance: Automated Reuse and Ordering
@@ -156,6 +164,8 @@ To extract a clean logic trace for a specific transaction, set the log level to 
 Changing a rule requires editing one declaration in `logic/logic_discovery/cbsa_steel_surtax.py`. The engine recomputes the dependency graph at startup and applies the change to every write path automatically — insert, update, delete, and foreign key reassignment. There is no need to find insertion points, trace execution paths, or audit every API endpoint.
 
 The contrast with procedural code is quantified in `logic/procedural/declarative-vs-procedural-comparison.md`. For an equivalent order management system, the procedural approach produced 220+ lines of code with 2 critical bugs (missed cases for FK reassignment). The declarative approach produced 5 rules with 0 bugs. The customs system in this POC has 16 rules. An equivalent procedural implementation would require explicit handling of every combination of line-item insert, quantity update, price update, HS code change, country change, and ship date update — each requiring code changes in multiple functions.
+
+<br>
 
 ---
 
@@ -172,6 +182,8 @@ The system does support AI rules - rules that call AI at runtime (though not use
 
 > AI may propose values, but rules determine what commits.
 
+<br>
+
 ---
 
 ## 7. Automatic Invocation - Code *Cannot* Bypass Rules
@@ -179,6 +191,8 @@ The system does support AI rules - rules that call AI at runtime (though not use
 Rules fire by architectural necessity, not by policy. The LogicBank engine hooks into SQLAlchemy's `before_flush` and `before_commit` events at the ORM layer, below Flask and below any API handler. There is no write path to the database that does not pass through the same hooks. 
 
 You cannot bypass enforcement by calling a different endpoint, using a different HTTP method, writing a new API service, or modifying the database through a workflow step. This is the structural property that makes AI-proposed logic changes safe to commit: a rule change that passes validation is automatically enforced everywhere, with no additional wiring.
+
+<br>
 
 ---
 
@@ -189,6 +203,8 @@ The rules engine enforces data integrity at write time. It is not a tool for rea
 It is not a workflow orchestration engine: multi-step approval processes, long-running sagas, and external system coordination belong in tools like Temporal or Airflow. It does not replace complex algorithms — machine learning models, graph traversal, or combinatorial optimization are pure Python problems. 
 
 Rules solve one specific problem well: ensuring that defined data relationships are always true, across every write path, automatically.
+
+<br>
 
 ---
 
