@@ -64,7 +64,7 @@ The following artifacts were generated and are present in this repository.
 This app was built across several iterations. Each iteration revealed a specific gap in Context Engineering (CE) — the curated knowledge given to the AI before generation. The gaps and their fixes are documented below.
 
 <details>
-<summary><strong>Step 0 — No GenAI-Logic Context Engineering → serious architectural issue</strong></summary>
+<summary><strong>Step 0 — No GenAI-Logic Context Engineering → serious "Fat API" architectural issue</strong></summary>
 
 <br>
 
