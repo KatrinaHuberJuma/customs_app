@@ -3,33 +3,35 @@
 **Audience:** Technical GenAI-Logic evaluators
 **Project:** CBSA Steel Derivative Goods Surtax calculator, built as a proof-of-concept for FedEx
 
+## Overview
 
+### Created with Two Prompts
 
-## Results: a tested application
-
-### Application: API, Database, Logic, Admin App
-
-![app](images/app_screenshot.png)
-
-### Tests and Report
-
-The GenAI-Logic `create` command builds test services and Context Engineering. These enable the LLM to generate tests that proved the code worked, as well as elucidate the logic through readable test reports.
-
-
-![[behave_report_git.png]]
-## Created with Two Prompts
-
-### Subsystem Prompt
+#### Subsystem Prompt
 The subsystem was created by providing the following prompt to Copilot:
 
 ```text
 Create a fully functional application and database for CBSA Steel Derivative Goods Surtax Order PC Number: 2025-0917 on 2025-12-11 and annexed Steel Derivative Goods Surtax Order under subsection 53(2) and paragraph 79(a) of the Customs Tariff program code 25267A to calculate duties and taxes including provincial sales tax or HST where applicable when hs codes, country of origin, customs value, and province code and ship date >= '2025-12-26' and create runnable ui with examples from Germany, US, Japan and China" this prompt created the tables in db.sqlite.
 ```
 
-### Tests Prompt
+#### Tests Prompt
 ```text
 create behave tests from CBSA_SURTAX_GUIDE.md
 ```
+
+
+### Results: a tested application
+
+#### Application: API, Database, Logic, Admin App
+
+![app](images/app_screenshot.png)
+
+#### Tests and Report
+
+The GenAI-Logic `create` command builds test services and Context Engineering. These enable the LLM to generate tests that proved the code worked, as well as elucidate the logic through readable test reports.
+
+
+![[behave_report_git.png]]
 
 ---
 
@@ -113,7 +115,7 @@ This app was built across four iterations. Each iteration revealed a specific ga
 
 ---
 
-## 3. Testing
+## 3. Test Creation From Rules
 
 **Behave** is a Python BDD (Behavior-Driven Development) test framework. Tests are written in plain English using **Gherkin** syntax (`Given / When / Then`), making them readable by non-engineers.
 
@@ -137,7 +139,7 @@ For example, the scenario `Surtax applies for post-cutoff ship date with surtax 
 
 ---
 
-## 4. Debugging
+## 4. Debugging: Standard IDE, Logging
 
 The LogicBank logic log records before- and after-values for every attribute touched during a transaction commit. Rules in `logic/logic_discovery/cbsa_steel_surtax.py` emit structured log messages using `logic_row.log()` — for example:
 
@@ -151,7 +153,7 @@ To extract a clean logic trace for a specific transaction, set the log level to 
 
 ---
 
-## 5. Maintenance
+## 5. Maintenance: Automated Reuse and Ordering
 
 Changing a rule requires editing one declaration in `logic/logic_discovery/cbsa_steel_surtax.py`. The engine recomputes the dependency graph at startup and applies the change to every write path automatically — insert, update, delete, and foreign key reassignment. There is no need to find insertion points, trace execution paths, or audit every API endpoint.
 
@@ -167,16 +169,18 @@ The created Rules in `logic/logic_discovery/cbsa_steel_surtax.py` execute **dete
 
 All writes to the database — through the REST API, through the Behave test suite, through the Admin UI at `/admin-app`, or through any agent or script — pass through the identical rule set. The execution order is computed once at startup from the declared dependency graph, not from code paths at runtime.
 
-### AI Rules
-The system does support AI rules (though not used here).  Importantly, these are subjected to this same governance:
+### AI Rules Also Supported - With Governance
+The system does support AI rules - rules that call AI at runtime (though not used here).  Importantly, these are subjected to this same governance:
 
 > AI may propose values, but rules determine what commits.
 
 ---
 
-## 7. Bypass Impossibility
+## 7. Automatic Invocation - Code *Cannot* Bypass Rules
 
-Rules fire by architectural necessity, not by policy. The LogicBank engine hooks into SQLAlchemy's `before_flush` and `before_commit` events at the ORM layer, below Flask and below any API handler. There is no write path to the database that does not pass through the same hooks. You cannot bypass enforcement by calling a different endpoint, using a different HTTP method, writing a new API service, or modifying the database through a workflow step. This is the structural property that makes AI-proposed logic changes safe to commit: a rule change that passes validation is automatically enforced everywhere, with no additional wiring.
+Rules fire by architectural necessity, not by policy. The LogicBank engine hooks into SQLAlchemy's `before_flush` and `before_commit` events at the ORM layer, below Flask and below any API handler. There is no write path to the database that does not pass through the same hooks. 
+
+You cannot bypass enforcement by calling a different endpoint, using a different HTTP method, writing a new API service, or modifying the database through a workflow step. This is the structural property that makes AI-proposed logic changes safe to commit: a rule change that passes validation is automatically enforced everywhere, with no additional wiring.
 
 ---
 
