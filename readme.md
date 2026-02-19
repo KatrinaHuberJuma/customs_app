@@ -39,7 +39,7 @@ The GenAI-Logic `create` command builds test services and Context Engineering. T
 
 The underlying architecture is a combination of key elements:
 
-#### Generative AI (e.g., Claude Sonnet 4.6)
+#### Generative AI - but that's not enough
 
 Used extensively to create - and iterate - the system.  This occurs in the IDE, not at runtime.  
 
