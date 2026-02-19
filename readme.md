@@ -117,19 +117,32 @@ Claude built a working customs application using standard Python code generation
 
 **Why:** The GenAI-Logic Context Engineering materials were not loaded. Claude had no knowledge of the platform and defaulted to standard, familiar patterns.
 
-**Insight:** Without Context Engineering, an AI cannot apply a framework it doesn't know exists. The result is a good demo: compiles and runs.  ***It does not deliver an Enterprise-class architecture:***
+**Insight:** Without Context Engineering, an AI cannot apply a framework it doesn't know exists. The result is a good demo: compiles and runs.  ***It does not deliver an Enterprise-class architecture***, as described below.
 
-1. No Enterprise-class API with filtering, sorting, pagination, optimistic locking, etc.
-2. Logic embedded in a single path - not automatically shared
-3. Logic is *procedural* with explicit ordering.  **AI uses pattern matching to order execution, which can fail for business logic** - to see the A/B study, [**click here**](logic/procedural/declarative-vs-procedural-comparison.md).
+<br>
 
-    a. This in fact did occur in our example
+#### Demo API (no filtering, pagination, etc)
 
-**Action:** Loaded the full GenAI-Logic Context Engineering materials (`.github/.copilot-instructions.md`) for the next generation attempt.
+No Enterprise-class API with filtering, sorting, pagination, optimistic locking, etc.
+
+<br>
+
+#### Unshared, Path-specific logic (Quality Issues)
+
+Logic embedded in a single path - not automatically shared
+
+<br>
+
+#### Procedural - Manual Ordering (with bugs)
+
+Logic is *procedural* with explicit ordering.  **AI uses pattern matching to order execution, which can fail for business logic** - to see the A/B study, [**click here**](logic/procedural/declarative-vs-procedural-comparison.md).
+
+> This in fact did occur in our example
 
 <br>
 
 ### No Rules, Poor Data Model ( → CE fixes)
+So, we loaded the Context Engineering, and re-built.
 
 **What happened:** 
 Claude attempted a full rebuild and produced poor results on two dimensions: 
