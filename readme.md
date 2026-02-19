@@ -109,10 +109,8 @@ The following artifacts were generated and are present in this repository.
 
 This app was built across several iterations. Each iteration revealed a specific gap in Context Engineering (CE) — the curated knowledge given to the AI before generation. The gaps and their fixes are documented below.
 
-<details>
-<summary><strong>Step 0 — No GenAI-Logic Context Engineering → serious "Fat API" architectural issue</strong></summary>
 
-<br>
+### No GenAI-Logic CE → poor "Fat API" architecture
 
 **What happened:** 
 Claude built a working customs application using standard Python code generation. 
@@ -129,14 +127,9 @@ Claude built a working customs application using standard Python code generation
 
 **Action:** Loaded the full GenAI-Logic Context Engineering materials (`.github/.copilot-instructions.md`) for the next generation attempt.
 
-</details>
-
 <br>
 
-<details>
-<summary><strong>Step 1 — No Rules, Poor Data Model ( → CE fixes)</strong></summary>
-
-<br>
+### No Rules, Poor Data Model ( → CE fixes)
 
 **What happened:** 
 Claude attempted a full rebuild and produced poor results on two dimensions: 
@@ -151,14 +144,11 @@ Claude attempted a full rebuild and produced poor results on two dimensions:
 1. add a data model advisory (integer autonumber primary keys required) and 
 2. an explicit preference rule: use `Rule.*` declarations over endpoint code for any calculation, derivation, copy, or constraint.
 
-</details>
 
 <br>
 
-<details>
-<summary><strong>Step 2 — Proper app generated correctly on first attempt</strong></summary>
+### Proper app generated correctly on first attempt
 
-<br>
 
 **What happened:** 
 With the revised CE in place, Claude generated a complete, correct customs application in a single pass: proper autonumber data model, 16 declarative LogicBank rules enforcing all calculations, clean separation between API routing and rule enforcement, and a Behave test suite with requirement-to-rule traceability.
@@ -169,7 +159,6 @@ With the revised CE in place, Claude generated a complete, correct customs appli
 
 **What this means for evaluation:** The product (GenAI-Logic) provides the architectural value. The process (Context Engineering iteration) determines whether the AI can reach that architecture reliably. Both matter.
 
-</details>
 
 <br>
 
