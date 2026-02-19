@@ -22,18 +22,53 @@ create behave tests from CBSA_SURTAX_GUIDE.md
 
 <br>
 
-### Results: a tested application
+### Results: system, test suite and report
 
-#### Application: API, Database, Logic, Admin App
+#### System: API, Database, Logic, Admin App
 
 ![app](images/app_screenshot.png)
 
-#### Tests and Report
+#### Test Suite and Report
 
 The GenAI-Logic `create` command builds test services and Context Engineering. These enable the LLM to generate tests that proved the code worked, as well as elucidate the logic through readable test reports.
 
 
 ![behave rpt](images/behave_report_git.png)
+
+### GenAI-Logic Architecture: Logic Automation + AI
+
+The underlying architecture is a combination of key elements:
+
+#### Generative AI (e.g., Claude Sonnet 4.6)
+
+Used extensively to create - and iterate - the system.  This occurs in the IDE, not at runtime.  
+
+But GenAI alone is not enough.  AI pattern matching struggles with dependencies, as shown in the A/B Test (see end)
+
+<br>
+
+#### Logic Automation (engines for rules, api...)
+
+The core GenAI-Logic [software architecture](https://www.genai-logic.com/product/architecture) consists of:
+
+* Runtime Engines for logic, api, admin app and data access
+* CLI Services to create projects, rules, etc
+
+
+![arch](images/Core-Architecture.png)
+
+<br>
+
+#### Context Engineering: Automation Aware AI
+
+GenAI-Logic projects are [AI-Enabled](https://apilogicserver.github.io/Docs/Project-AI-Enabled/): each project contains extensive markdown files that enable AI to understand and create Logic Automation components.  For example, markdown files explain rule syntax, so AI can translate NL Logic into declarative rules.
+
+<br>
+
+#### Runtime Architecture - standard container, AI on request only
+
+The resultant projects are standard containers.  Execution does *not* use probabilistic AI services *except* for explict AI Rules; these results are strictly governed by deterministic rules at commit time
+
 
 ---
 
@@ -59,7 +94,7 @@ The following artifacts were generated and are present in this repository.
 
 ---
 
-## 2. Context Engineering - High Leverage, With Background
+## 2. Context Engineering - High Leverage, Background Req'd
 
 This app was built across several iterations. Each iteration revealed a specific gap in Context Engineering (CE) — the curated knowledge given to the AI before generation. The gaps and their fixes are documented below.
 

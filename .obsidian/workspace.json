@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "readme.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -170,7 +170,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 398.5
+    "width": 401.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -185,6 +185,7 @@
   },
   "active": "199fa5c8c5662928",
   "lastOpenFiles": [
+    "images/Core-Architecture.png",
     "Untitled.base",
     "readme.md",
     "images/behave_report_git.png"
