@@ -26,14 +26,15 @@ create behave tests from CBSA_SURTAX_GUIDE.md
 
 #### System: API, Database, Logic, Admin App
 
-![app](images/app_screenshot.png)
+![app](https://github.com/ApiLogicServer/Docs/blob/main/docs/images/ui-vibe/customs/app_screenshot.png?raw=true)
+
 
 #### Test Suite and Report
 
 The GenAI-Logic `create` command builds test services and Context Engineering. These enable the LLM to generate tests that proved the code worked, as well as elucidate the logic through readable test reports.
 
 
-![behave rpt](images/behave_report_git.png)
+![behave rpt](https://github.com/ApiLogicServer/Docs/blob/main/docs/images/ui-vibe/customs/behave_report_git.png?raw=true)
 
 ### GenAI-Logic Architecture: Logic Automation + AI
 
@@ -55,7 +56,7 @@ The core GenAI-Logic [software architecture](https://www.genai-logic.com/product
 * CLI Services to create projects, rules, etc
 
 
-![arch](images/Core-Architecture.png)
+![arch](https://github.com/ApiLogicServer/Docs/blob/main/docs/images/ui-vibe/customs/Core-Architecture.png?raw=true)
 
 <br>
 
