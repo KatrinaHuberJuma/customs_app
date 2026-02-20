@@ -6,6 +6,18 @@
 
 ## Overview
 
+### TL;DR - Enterprise Governance and Speed
+
+The goal of this POC was to explore whether GenAI-Logic added significant value.  Our findings:
+
+* An Enterprise-class system ensured *by architecture:* Governable Quality, Full-Featured
+
+  * Logic reuse over all paths, by data-oriented rules enforced on commit
+  * Full-featured Enterprise class (APIs for all objects, with enterprise features such as pagination, filtering, etc)
+* A several week effort became 30 minutes
+
+<br>
+
 ### Two Creation Prompts
 
 #### Subsystem Prompt
