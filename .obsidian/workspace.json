@@ -78,7 +78,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 204.5
+    "width": 204.5,
+    "collapsed": true
   },
   "right": {
     "id": "a41a3b9a5e5eba52",
@@ -170,7 +171,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 401.5
+    "width": 418.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -185,9 +186,10 @@
   },
   "active": "199fa5c8c5662928",
   "lastOpenFiles": [
+    "logic/procedural/declarative-vs-procedural-comparison.md",
+    "readme.md",
     "images/Core-Architecture.png",
     "Untitled.base",
-    "readme.md",
     "images/behave_report_git.png"
   ]
 }
