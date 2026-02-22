@@ -6,6 +6,8 @@
 
 Source: [`https://github.com/KatrinaHuberJuma/customs_app`](https://github.com/KatrinaHuberJuma/customs_app)
 
+**Run Instructions:** at end
+
 ## Overview
 
 ### TL;DR - Enterprise Governance and Speed
@@ -298,3 +300,24 @@ The full experiment, including the original procedural code and the AI's own ana
 ---
 
 **Bottom line:** The customs POC demonstrates that GenAI-Logic delivers correct, maintainable business logic — and that getting an AI to generate it correctly requires Context Engineering to be as precise about architecture as it is about syntax.
+
+<br>
+
+## Run Instructions
+
+Load under 16.01.32, windows or mac.
+
+Start the server, and enter a SurTax Order:
+
+* Country Origin: China
+* Province: ON
+* Order Number: <any unique>
+
+And a SurTaxLineItem:
+
+* Line #: 1
+* Quantity: 1
+* Price: 10000
+* HS Code: < the first>
+
+ReQuery, and Verify Total Amount Due: 14125
