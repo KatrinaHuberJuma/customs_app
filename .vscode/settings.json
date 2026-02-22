@@ -17,12 +17,13 @@
     "python.defaultInterpreterPath": "${workspaceFolder}/../venv/bin/python",
     "python.terminal.activateEnvironment": true,
     "python.terminal.activateEnvInCurrentTerminal": true,
-    "python.envFile": "${workspaceFolder}/.env",
     "python.analysis.autoImportCompletions": true,
     "python.analysis.extraPaths": ["${workspaceFolder}/../venv/lib/python3.13/site-packages"],
     "workbench.startupEditor": "readme",
     "workbench.editorAssociations": {
         "*.md": "vscode.markdown.preview.editor"
     },
-    "dbmlERDPreviewer.preferredTheme": "light"
+    "dbmlERDPreviewer.preferredTheme": "light",
+    "python-envs.defaultEnvManager": "ms-python.python:venv",
+    "python-envs.pythonProjects": []
 }
