@@ -17,7 +17,7 @@ The goal of this POC was to explore whether GenAI-Logic added significant value.
 * An Enterprise-class system ensured *by architecture:* Governable Quality, Full-Featured
 
   * Logic reuse over all paths, by data-oriented rules enforced on commit
-  * Full-featured Enterprise class (APIs for all objects, with enterprise features such as pagination, filtering, etc)
+  * Full-featured Enterprise class (APIs for all objects, with enterprise features such as pagination, filtering, etc), logic enabled
 * A several week effort became 30 minutes
 
 <br>
@@ -321,3 +321,17 @@ And a SurTaxLineItem:
 * HS Code: < the first>
 
 ReQuery, and Verify Total Amount Due: 14125
+
+<br>
+
+### To Recreate:
+
+```bash
+genai-logic genai --using=samples/prompts/genai_demo.prompt
+```
+
+The:
+
+1. Establish your venv
+2. Initialize Copilot (*Please load `.github/.copilot-instructions.md`*)
+3. Enter the prompt above
