@@ -324,13 +324,15 @@ ReQuery, and Verify Total Amount Due: 14125
 
 <br>
 
-### To Recreate:
+### To Recreate
 
 ```bash
 genai-logic genai --using=samples/prompts/genai_demo.prompt
 ```
 
-The:
+This creates a 1-table project, and opens it.
+
+Then, in the opened project:
 
 1. Establish your venv
 2. Initialize Copilot (*Please load `.github/.copilot-instructions.md`*)
