@@ -23,7 +23,5 @@
     "workbench.editorAssociations": {
         "*.md": "vscode.markdown.preview.editor"
     },
-    "dbmlERDPreviewer.preferredTheme": "light",
-    "python-envs.defaultEnvManager": "ms-python.python:venv",
-    "python-envs.pythonProjects": []
+    "dbmlERDPreviewer.preferredTheme": "light"
 }

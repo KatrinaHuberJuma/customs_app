@@ -305,7 +305,7 @@ The full experiment, including the original procedural code and the AI's own ana
 
 ## Run Instructions
 
-Load under 16.01.32, windows or mac.
+Load under 16.01.39, windows or mac.
 
 Start the server, and enter a SurTax Order:
 
