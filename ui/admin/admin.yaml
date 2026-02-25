@@ -5,155 +5,10 @@ about:
 api_root: '{http_type}://{swagger_host}:{port}/{api}'
 authentication: '{system-default}'
 info:
-  number_relationships: 18
-  number_tables: 11
+  number_relationships: 6
+  number_tables: 6
 info_toggle_checked: true
 resources:
-  Customer:
-    attributes:
-    - label: ' name*'
-      name: name
-      search: true
-      sort: true
-    - name: balance
-      type: DECIMAL
-    - name: credit_limit
-      type: DECIMAL
-    - name: email
-    - name: email_opt_out
-      type: Boolean
-    - name: id
-    tab_groups:
-    - direction: tomany
-      fks:
-      - customer_id
-      name: OrderList
-      resource: Order
-    type: Customer
-    user_key: name
-  Item:
-    attributes:
-    - label: ' id*'
-      name: id
-      search: true
-      sort: true
-    - name: order_id
-    - name: product_id
-      required: true
-    - name: quantity
-      required: true
-    - name: amount
-      type: DECIMAL
-    - name: unit_price
-      type: DECIMAL
-    tab_groups:
-    - direction: toone
-      fks:
-      - order_id
-      name: order
-      resource: Order
-    - direction: toone
-      fks:
-      - product_id
-      name: product
-      resource: Product
-    type: Item
-    user_key: id
-  Order:
-    attributes:
-    - label: ' id*'
-      name: id
-      search: true
-      sort: true
-    - name: customer_id
-      required: true
-    - name: notes
-    - name: CreatedOn
-      type: DATE
-    - name: amount_total
-      type: DECIMAL
-    - name: date_shipped
-      type: DATE
-    tab_groups:
-    - direction: tomany
-      fks:
-      - order_id
-      name: ItemList
-      resource: Item
-    - direction: toone
-      fks:
-      - customer_id
-      name: customer
-      resource: Customer
-    type: Order
-    user_key: id
-  Product:
-    attributes:
-    - label: ' name*'
-      name: name
-      search: true
-      sort: true
-    - name: count_suppliers
-    - name: unit_price
-      type: DECIMAL
-    - name: id
-    tab_groups:
-    - direction: tomany
-      fks:
-      - product_id
-      name: ItemList
-      resource: Item
-    - direction: tomany
-      fks:
-      - product_id
-      name: ProductSupplierList
-      resource: ProductSupplier
-    type: Product
-    user_key: name
-  ProductSupplier:
-    attributes:
-    - label: ' id*'
-      name: id
-      search: true
-      sort: true
-    - name: product_id
-    - name: supplier_id
-    - name: supplier_part_number
-    - name: unit_cost
-      type: DECIMAL
-    - name: lead_time_days
-    tab_groups:
-    - direction: toone
-      fks:
-      - product_id
-      name: product
-      resource: Product
-    - direction: toone
-      fks:
-      - supplier_id
-      name: supplier
-      resource: Supplier
-    type: ProductSupplier
-    user_key: id
-  Supplier:
-    attributes:
-    - label: ' name*'
-      name: name
-      search: true
-      sort: true
-    - name: contact_name
-    - name: phone
-    - name: email
-    - name: region
-    - name: id
-    tab_groups:
-    - direction: tomany
-      fks:
-      - supplier_id
-      name: ProductSupplierList
-      resource: ProductSupplier
-    type: Supplier
-    user_key: name
   CountryOrigin:
     attributes:
     - label: ' country_name*'
@@ -324,6 +179,20 @@ resources:
       resource: HSCodeRate
     type: SurtaxLineItem
     user_key: id
+  SysScalar:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: discount_rate
+      type: DECIMAL
+    - name: tax_rate
+      type: DECIMAL
+    - name: notes
+    - name: id
+    type: SysScalar
+    user_key: name
 settings:
   HomeJS: /admin-app/home.js
   max_list_columns: 8

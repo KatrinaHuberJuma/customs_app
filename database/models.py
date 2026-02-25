@@ -44,114 +44,6 @@ else:
 
 
 
-class Customer(Base):  # type: ignore
-    __tablename__ = 'customer'
-    _s_collection_name = 'Customer'  # type: ignore
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    balance : DECIMAL = Column(DECIMAL)
-    credit_limit : DECIMAL = Column(DECIMAL)
-    email = Column(String)
-    email_opt_out = Column(Boolean)
-
-    # parent relationships (access parent)
-
-    # child relationships (access children)
-    OrderList : Mapped[List["Order"]] = relationship(back_populates="customer")
-
-
-
-class Product(Base):  # type: ignore
-    __tablename__ = 'product'
-    _s_collection_name = 'Product'  # type: ignore
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    count_suppliers = Column(Integer)
-    unit_price : DECIMAL = Column(DECIMAL)
-
-    # parent relationships (access parent)
-
-    # child relationships (access children)
-    ProductSupplierList : Mapped[List["ProductSupplier"]] = relationship(back_populates="product")
-    ItemList : Mapped[List["Item"]] = relationship(back_populates="product")
-
-
-
-class Supplier(Base):  # type: ignore
-    __tablename__ = 'supplier'
-    _s_collection_name = 'Supplier'  # type: ignore
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    contact_name = Column(String)
-    phone = Column(String)
-    email = Column(String)
-    region = Column(String)
-
-    # parent relationships (access parent)
-
-    # child relationships (access children)
-    ProductSupplierList : Mapped[List["ProductSupplier"]] = relationship(back_populates="supplier")
-
-
-
-class Order(Base):  # type: ignore
-    __tablename__ = 'order'
-    _s_collection_name = 'Order'  # type: ignore
-
-    id = Column(Integer, primary_key=True)
-    notes = Column(String)
-    customer_id = Column(ForeignKey('customer.id'), nullable=False)
-    CreatedOn = Column(Date)
-    date_shipped = Column(Date)
-    amount_total : DECIMAL = Column(DECIMAL)
-
-    # parent relationships (access parent)
-    customer : Mapped["Customer"] = relationship(back_populates=("OrderList"))
-
-    # child relationships (access children)
-    ItemList : Mapped[List["Item"]] = relationship(back_populates="order")
-
-
-
-class ProductSupplier(Base):  # type: ignore
-    __tablename__ = 'product_supplier'
-    _s_collection_name = 'ProductSupplier'  # type: ignore
-
-    id = Column(Integer, primary_key=True)
-    product_id = Column(ForeignKey('product.id'))
-    supplier_id = Column(ForeignKey('supplier.id'))
-    supplier_part_number = Column(String)
-    unit_cost : DECIMAL = Column(DECIMAL)
-    lead_time_days = Column(Integer)
-
-    # parent relationships (access parent)
-    product : Mapped["Product"] = relationship(back_populates=("ProductSupplierList"))
-    supplier : Mapped["Supplier"] = relationship(back_populates=("ProductSupplierList"))
-
-    # child relationships (access children)
-
-
-
-class Item(Base):  # type: ignore
-    __tablename__ = 'item'
-    _s_collection_name = 'Item'  # type: ignore
-
-    id = Column(Integer, primary_key=True)
-    order_id = Column(ForeignKey('order.id'))
-    product_id = Column(ForeignKey('product.id'), nullable=False)
-    quantity = Column(Integer, nullable=False)
-    amount : DECIMAL = Column(DECIMAL)
-    unit_price : DECIMAL = Column(DECIMAL)
-
-    # parent relationships (access parent)
-    order : Mapped["Order"] = relationship(back_populates=("ItemList"))
-    product : Mapped["Product"] = relationship(back_populates=("ItemList"))
-
-    # child relationships (access children)
-
 
 
 # ==============================================================================
@@ -265,5 +157,20 @@ class SurtaxLineItem(Base):  # type: ignore
     # parent relationships (access parent)
     surtax_order : Mapped["SurtaxOrder"] = relationship(back_populates="SurtaxLineItemList")
     hs_code_rate : Mapped["HSCodeRate"] = relationship(back_populates="SurtaxLineItemList")
+
+    # child relationships (access children)
+
+class SysScalar(Base):  # type: ignore
+    """System-wide scalar configuration values (single row, name='system')"""
+    __tablename__ = 'sys_scalar'
+    _s_collection_name = 'SysScalar'  # type: ignore
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False, default='system')
+    discount_rate = Column(DECIMAL, default=0.05)
+    tax_rate = Column(DECIMAL, default=0.10)
+    notes = Column(String)
+
+    # parent relationships (access parent)
 
     # child relationships (access children)
