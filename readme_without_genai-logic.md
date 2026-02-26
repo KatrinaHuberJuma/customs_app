@@ -3,13 +3,16 @@
 **Project**: customs_appZ (this project)  
 **Reference (good impl)**: `customs_app`  
 **Date**: February 26, 2026  
-**Classification**: Candid retrospective — not marketing
+**Classification**: Candid retrospective — not marketing  
+**Authored by**: Claude Sonnet 4.6, comparing two implementations built from the same prompt — one with GenAI-Logic Context Engineering loaded, one without
 
 ---
 
 ## TL;DR
 
-This project was created from the customs prompt **without first loading `.github/.copilot-instructions.md`**. The AI had no awareness of GenAI-Logic architecture, the Request Pattern (ROP), or LogicBank declarative rules. The result is a functional-looking application that violates every structural principle of the platform it runs on.
+This project was created from the customs prompt **without first loading `.github/.copilot-instructions.md`**. The AI had no awareness of GenAI-Logic architecture, the Request Pattern (ROP), or LogicBank declarative rules.
+
+The result is a working application: the endpoint returns correct answers for its intended happy-path POST, the Admin UI runs, and the code is competent Flask. For a proof-of-concept with a single entry point, it would pass a demo. The problem is architectural, not functional — and it only surfaces under real-world conditions.
 
 **One-line verdict**: Business logic lives in the wrong layer — in a fat API service — and is not enforced by the rules engine. `declare_logic.py` itself confirms this: `declare_logic_message = "ALERT:  *** No Rules Yet ***"`.
 
@@ -21,7 +24,7 @@ This project was created from the customs prompt **without first loading `.githu
 
 2. **~150 lines of business logic in the wrong layer** — `duty_calculator_service.py` performs tariff lookups, rate selection, and calculations. The `early_row_event` in `duty_calculations.py` then recalculates the same amounts from already-set fields — logic runs twice, in two places, neither governing the other.
 
-3. **Missing requirements from the original prompt** — Provincial tax (HST/PST), surtax applicability by ship date (`>= 2025-12-26`), and multi-line order structure are all explicit in the prompt; all are absent from this implementation.
+3. **Missing requirements from the original prompt** — Provincial tax (HST/PST), surtax applicability by ship date (`>= 2025-12-26`), and multi-line order structure are all explicit in the prompt used for both projects; all are absent from this implementation. (Note: this comparison is only valid if both projects were built from the same prompt. The session transcript in `session_transcript.md` confirms this.)
 
 4. **Enforcement gap** — Logic only fires via the one custom endpoint. Any insert via standard JSON:API, the Admin UI, test scripts, or future integrations bypasses tariff lookup entirely and stores whatever rates the caller provides.
 
@@ -94,7 +97,7 @@ Without context from `.copilot-instructions.md`, the AI defaulted to the most fa
 
 ## 2. Logic Architecture: Where the Rules Live
 
-### customs_appZ (this project) — BAD
+### customs_appZ (this project) — Logic in API layer
 
 ```
 api/api_discovery/duty_calculator_service.py   ← 179 lines  (logic IS here)
@@ -109,9 +112,9 @@ logic/declare_logic.py                         ← "ALERT: *** No Rules Yet ***"
 4. `session.flush()` comment: "Trigger business logic calculations"
 5. Response assembly with full breakdown
 
-Then `duty_calculations.py` fires an `early_row_event` that **recalculates the same amounts** from the already-populated rate fields. The logic runs twice, in two different places, for no reason.
+Then `duty_calculations.py` fires an `early_row_event` that **recalculates the same amounts** from the already-populated rate fields — redundant execution, with logic running twice in two different places, neither governing the other.
 
-### customs_app (reference) — GOOD
+### customs_app (reference) — Logic in rules layer
 
 ```
 api/api_discovery/     ← only boilerplate stubs (new_service.py etc.)
